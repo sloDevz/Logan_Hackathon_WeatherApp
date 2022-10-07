@@ -6,10 +6,11 @@
 //
 
 import UIKit
-import MapKit
+import CoreLocation
 
-class ViewController: UIViewController {
-    var weatherDataManager = DataManager()
+
+final class ViewController: UIViewController {
+    let weatherDataManager = DataManager()
     
     @IBOutlet weak var regionTableView: UITableView!
     
@@ -18,16 +19,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        
+        setup()
         
         
         regionTableView.dataSource = self
-        regionTableView.rowHeight = 120
+        regionTableView.rowHeight = 80
         regionTableView.delegate = self
         
-        weatherDataManager.makeMovieData()
+        weatherDataManager.makeWeatherData()
     }
     
     
@@ -36,20 +36,33 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : CLLocationManagerDelegate {
+    func setup() {
+        
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
+        locationManager.delegate = self
+        self.locationManager.requestWhenInUseAuthorization()
+    }
     
-    func requestGPSPermission(){
-          switch CLLocationManager.authorizationStatus() {
-          case .authorizedAlways, .authorizedWhenInUse:
-              print("GPS: 권한 있음")
-          case .restricted, .notDetermined:
-              print("GPS: 아직 선택하지 않음")
-          case .denied:
-               print("GPS: 권한 없음")
-          default:
-              print("GPS: Default")
-          }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus){
+        
+        switch status {
+        case .restricted, .notDetermined:
+            print("사용자: 위치 사용 여부 체크중")
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("사용자: 위치 허용")
+            self.locationManager.startUpdatingLocation()
+            // DetailView 로 넘어가는 세그웨이 호출
+            self.performSegue(withIdentifier: "toDetailVC", sender: self)
+        case .denied: //허용거부
+            print("사용자: 위치사용 거부")
+        default:
+            print("GPS: default")
+        }
       }
+
 }
+
+
 
 extension ViewController : UITableViewDataSource {
     //컨텐츠 몇개?
@@ -64,7 +77,9 @@ extension ViewController : UITableViewDataSource {
         let array = weatherDataManager.getWeatherData()
         let weather = array[indexPath.row] //이걸로 코드 줄여도 됨
         
-        
+        cell.regionNameLabel.text = weather.name
+        cell.weatherIcon.image = weather.icon
+        cell.currentTemperatureLabel.text = weather.currentTemperature
         cell.selectionStyle = .none
         
         return cell
@@ -72,5 +87,23 @@ extension ViewController : UITableViewDataSource {
 }
 
 extension ViewController : UITableViewDelegate {
+    // 셀이 선택됐을때에 대한 반응
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 세그웨이를 사용할땐 항상 사용. ( sender는 정보전달 )
+        
+        // 선택된 셀의 요소를 weatherDataOut 배열중 가장 첫번째로 옮기기.
+        weatherDataManager.weatherDataOut.swapAt(0, indexPath.row)
+        print("뷰컨: \(weatherDataManager.weatherDataOut)")
+        
+        performSegue(withIdentifier: "toDetailVC", sender: indexPath)
+    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //print(#function)
+        if segue.identifier == "toDetailVC" {
+            let detailVC = segue.destination as! DetailViewController
+            detailVC.selectedCity = weatherDataManager.weatherDataOut
+            //thirdVC.mainLabel.text = "안녕하세요"    // 에러발생 (스토리보드 객체가 나중에 생김)
+        }
+    }
 }

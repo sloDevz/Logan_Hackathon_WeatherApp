@@ -9,7 +9,13 @@ import UIKit
 
 class WeatherCell: UITableViewCell {
 
-    @IBOutlet weak var regionNameLabel: UIView!
+    
+    @IBOutlet weak var weatherIcon: UIImageView!
+    
+    @IBOutlet weak var regionNameLabel: UILabel!
+    
+    @IBOutlet weak var currentTemperatureLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

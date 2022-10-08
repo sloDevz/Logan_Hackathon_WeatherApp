@@ -73,6 +73,7 @@
 				F11BD78928EDB4B500B9E3A8 /* Models */,
 				F11BD78828EDB4A100B9E3A8 /* Views */,
 				F11BD78728EDB48200B9E3A8 /* Controllers */,
+				F14D4DC728F19D24009F78A4 /* ETC */,
 				F11BD77928ED791E00B9E3A8 /* Main.storyboard */,
 				F11BD77C28ED791F00B9E3A8 /* Assets.xcassets */,
 				F11BD77E28ED791F00B9E3A8 /* LaunchScreen.storyboard */,
@@ -86,7 +87,6 @@
 			children = (
 				F11BD77728ED791E00B9E3A8 /* ViewController.swift */,
 				F13C3E8D28F07E4A00D66DD6 /* DetailCollectionViewController.swift */,
-				F100D21E28EF08C400F1664F /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -107,6 +107,14 @@
 				F100D21C28EDEF4400F1664F /* DataManager.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F14D4DC728F19D24009F78A4 /* ETC */ = {
+			isa = PBXGroup;
+			children = (
+				F100D21E28EF08C400F1664F /* DetailViewController.swift */,
+			);
+			path = ETC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

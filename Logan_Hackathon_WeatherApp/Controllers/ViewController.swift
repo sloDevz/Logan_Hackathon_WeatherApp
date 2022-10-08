@@ -92,8 +92,8 @@ extension ViewController : UITableViewDelegate {
         // 세그웨이를 사용할땐 항상 사용. ( sender는 정보전달 )
         
         // 선택된 셀의 요소를 weatherDataOut 배열중 가장 첫번째로 옮기기.
-        weatherDataManager.weatherDataOut.swapAt(0, indexPath.row)
-        print("뷰컨: \(weatherDataManager.weatherDataOut)")
+        weatherDataManager.weatherDataList.swapAt(0, indexPath.row)
+//        print("뷰컨: \(weatherDataManager.weatherDataList)")
         
         performSegue(withIdentifier: "toDetailVC", sender: indexPath)
     }
@@ -101,8 +101,8 @@ extension ViewController : UITableViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //print(#function)
         if segue.identifier == "toDetailVC" {
-            let detailVC = segue.destination as! DetailViewController
-            detailVC.selectedCity = weatherDataManager.weatherDataOut
+            let detailVC = segue.destination as! DetailCollectionViewController
+            detailVC.selectedCity = weatherDataManager.weatherDataList
             //thirdVC.mainLabel.text = "안녕하세요"    // 에러발생 (스토리보드 객체가 나중에 생김)
         }
     }

@@ -17,6 +17,8 @@
 		F11BD77B28ED791E00B9E3A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F11BD77928ED791E00B9E3A8 /* Main.storyboard */; };
 		F11BD77D28ED791F00B9E3A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F11BD77C28ED791F00B9E3A8 /* Assets.xcassets */; };
 		F11BD78028ED791F00B9E3A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F11BD77E28ED791F00B9E3A8 /* LaunchScreen.storyboard */; };
+		F13C3E8E28F07E4A00D66DD6 /* DetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C3E8D28F07E4A00D66DD6 /* DetailCollectionViewController.swift */; };
+		F13C3E9028F1635300D66DD6 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C3E8F28F1635300D66DD6 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		F11BD77C28ED791F00B9E3A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F11BD77F28ED791F00B9E3A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F11BD78128ED791F00B9E3A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F13C3E8D28F07E4A00D66DD6 /* DetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewController.swift; sourceTree = "<group>"; };
+		F13C3E8F28F1635300D66DD6 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				F11BD77728ED791E00B9E3A8 /* ViewController.swift */,
+				F13C3E8D28F07E4A00D66DD6 /* DetailCollectionViewController.swift */,
 				F100D21E28EF08C400F1664F /* DetailViewController.swift */,
 			);
 			path = Controllers;
@@ -90,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				F100D21A28EDE82C00F1664F /* WeatherCell.swift */,
+				F13C3E8F28F1635300D66DD6 /* CollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -176,9 +182,11 @@
 			files = (
 				F11BD77828ED791E00B9E3A8 /* ViewController.swift in Sources */,
 				F100D21D28EDEF4400F1664F /* DataManager.swift in Sources */,
+				F13C3E9028F1635300D66DD6 /* CollectionViewCell.swift in Sources */,
 				F100D21928EDE14500F1664F /* Weather.swift in Sources */,
 				F100D21B28EDE82C00F1664F /* WeatherCell.swift in Sources */,
 				F11BD77428ED791E00B9E3A8 /* AppDelegate.swift in Sources */,
+				F13C3E8E28F07E4A00D66DD6 /* DetailCollectionViewController.swift in Sources */,
 				F11BD77628ED791E00B9E3A8 /* SceneDelegate.swift in Sources */,
 				F100D21F28EF08C400F1664F /* DetailViewController.swift in Sources */,
 			);

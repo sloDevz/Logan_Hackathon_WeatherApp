@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class DetailViewController: UIViewController {
     
@@ -17,19 +18,21 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var maxTemperatureLabel: UILabel!
     @IBOutlet weak var minTemperatureLabel: UILabel!
     
-    
-    
-    
-    var selectedCity: [Weather]?
+    @IBOutlet weak var locationButton: UIButton!
 
+    var selectedCity: [Weather]?
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setUI(weatherData: selectedCity!)
     }
     
+    
+    
     func setUI(weatherData: [Weather]){
         let index = 0
-        print("디테일뷰: \(weatherData)")
+//        print("디테일뷰: \(weatherData)")
         regionNameLabel.text = weatherData[index].name
         weatherDescriptionLabel.text = weatherData[index].description.rawValue
         weatherIcon.image = weatherData[index].icon
@@ -37,9 +40,14 @@ class DetailViewController: UIViewController {
         currentHumidityLabel.text = weatherData[index].currentHumidity
         maxTemperatureLabel.text = weatherData[index].maxTemperature
         minTemperatureLabel.text = weatherData[index].minTemperature
+        
+        locationButton.setTitle("", for: .normal)
+    }
+    
+    @IBAction func locationButtonTapped(_ sender: UIButton) {
+        print("locationButtonTapped")
     }
     
 }
-
 
 

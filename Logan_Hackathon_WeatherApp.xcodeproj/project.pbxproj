@@ -10,7 +10,6 @@
 		F100D21928EDE14500F1664F /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100D21828EDE14500F1664F /* Weather.swift */; };
 		F100D21B28EDE82C00F1664F /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100D21A28EDE82C00F1664F /* WeatherCell.swift */; };
 		F100D21D28EDEF4400F1664F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100D21C28EDEF4400F1664F /* DataManager.swift */; };
-		F100D21F28EF08C400F1664F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F100D21E28EF08C400F1664F /* DetailViewController.swift */; };
 		F11BD77428ED791E00B9E3A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11BD77328ED791E00B9E3A8 /* AppDelegate.swift */; };
 		F11BD77628ED791E00B9E3A8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11BD77528ED791E00B9E3A8 /* SceneDelegate.swift */; };
 		F11BD77828ED791E00B9E3A8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11BD77728ED791E00B9E3A8 /* ViewController.swift */; };
@@ -25,7 +24,6 @@
 		F100D21828EDE14500F1664F /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		F100D21A28EDE82C00F1664F /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
 		F100D21C28EDEF4400F1664F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		F100D21E28EF08C400F1664F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F11BD77028ED791E00B9E3A8 /* Logan_Hackathon_WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Logan_Hackathon_WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F11BD77328ED791E00B9E3A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F11BD77528ED791E00B9E3A8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 		F14D4DC728F19D24009F78A4 /* ETC */ = {
 			isa = PBXGroup;
 			children = (
-				F100D21E28EF08C400F1664F /* DetailViewController.swift */,
 			);
 			path = ETC;
 			sourceTree = "<group>";
@@ -196,7 +193,6 @@
 				F11BD77428ED791E00B9E3A8 /* AppDelegate.swift in Sources */,
 				F13C3E8E28F07E4A00D66DD6 /* DetailCollectionViewController.swift in Sources */,
 				F11BD77628ED791E00B9E3A8 /* SceneDelegate.swift in Sources */,
-				F100D21F28EF08C400F1664F /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

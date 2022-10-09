@@ -9,15 +9,6 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     
-//    required init?(coder: NSCoder) {
-//      fatalError()
-//    }
-//    override init(frame: CGRect) {
-//      super.init(frame: frame)
-//
-//        self.backgroundColor = .blue
-//    }
-    
     @IBOutlet weak var regionNameLabel: UILabel!
     
     @IBOutlet weak var weatherDescriptionLabel: UILabel!
@@ -26,7 +17,10 @@ class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var currentTemperatureLabel: UILabel!
     
+    @IBOutlet weak var currentHumidityLabel: UILabel!
     
+    @IBOutlet weak var maxTemperatureLabel: UILabel!
     
+    @IBOutlet weak var minTemperatureLabel: UILabel!
     
 }

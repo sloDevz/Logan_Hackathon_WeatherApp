@@ -8,18 +8,27 @@
 import UIKit
 
 class WeatherCell: UITableViewCell {
+    
 
     
-    @IBOutlet weak var weatherIcon: UIImageView!
+    var weatherDataManager: DataManager?
     
     @IBOutlet weak var regionNameLabel: UILabel!
     
-    @IBOutlet weak var currentTemperatureLabel: UILabel!
+    @IBOutlet weak var weatherIcon: UIImageView!
     
+    @IBOutlet weak var selectButton: UIButton!
+    
+    @IBOutlet weak var likeButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        setUI()
+    }
+    
+    func setUI() {
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -28,4 +37,16 @@ class WeatherCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    
+    @IBAction func likeButtonTapped(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func selectButtonTapped(_ sender: UIButton) {
+//        print("selectButton Tapped: \(regionNameLabel.text!)")
+        
+    }
+    
+    
+    
 }

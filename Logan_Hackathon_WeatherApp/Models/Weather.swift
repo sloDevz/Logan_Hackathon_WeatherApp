@@ -17,6 +17,7 @@ struct Weather {
         case snow = "눈"
     }
     
+    var isMyList: Bool = false
     var name: String
     var icon: UIImage {
         get{
@@ -39,4 +40,8 @@ struct Weather {
     var currentHumidity: String
     var maxTemperature: String
     var minTemperature: String
+    
+    mutating func toggleMyList(){
+        self.isMyList.toggle()
+    }
 }

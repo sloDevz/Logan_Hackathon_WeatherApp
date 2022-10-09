@@ -13,15 +13,15 @@ final class DataManager {
         "전주"
     ]
     
-    var myWeatherViewList: [Weather] = []
+    private var myWeatherViewList: [Weather] = []
     
     // 불러온 모든 도시들의 날씨 데이터
-    var allWeatherDataArray: [Weather] = [
+    private var allWeatherDataArray: [Weather] = [
         Weather(name: "서울", description: .clear, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(name: "대전", description: .rain, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(name: "대구", description: .snow, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(name: "부산", description: .clear, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
-        Weather(name: "전주", description: .snow, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
+        Weather(isMyList: true, name: "전주", description: .snow, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(name: "일산", description: .clear, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(name: "평택", description: .fog, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(name: "과천", description: .cloud, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
@@ -45,18 +45,20 @@ final class DataManager {
         Weather(name: "9---", description: .rain, currentTemperature: "--", currentHumidity: "--", maxTemperature: "--", minTemperature: "--"),
         ]
     
-    func addMyCityList(_ cityName: String) {
-        DataManager.myCityNameList.append(cityName)
+    func addMyCityList(_ selectedRegion: inout Weather) {
+        print(#function)
+        selectedRegion.toggleMyList()
+        print("DataM: \(selectedRegion.name)is \(selectedRegion.isMyList)")
     }
+
     
     // 유저가 선택한 특정도시들의 날씨 추출
     func setMyWeatherViewList() {
+        print(#function)
+        print("\(myWeatherViewList)")
+        
         myWeatherViewList.removeAll()
-        allWeatherDataArray.forEach{ weatherArr in
-            if DataManager.myCityNameList.filter({$0.contains(weatherArr.name)}).isEmpty != true {
-                myWeatherViewList.append(weatherArr)
-            }
-        }
+        myWeatherViewList = allWeatherDataArray.filter{$0.isMyList}
     }
     
     func getMyWeatherViewList() -> [Weather] {

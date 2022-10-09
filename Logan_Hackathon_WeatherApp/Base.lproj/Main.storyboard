@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3s5-gf-eSx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zZI-k2-imU">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -11,89 +11,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--List-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Logan_Hackathon_WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="H76-As-LcE">
-                                <rect key="frame" x="0.0" y="91" width="390" height="753"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeatherCell" rowHeight="105" id="CW2-qR-Uex" customClass="WeatherCell" customModule="Logan_Hackathon_WeatherApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="390" height="105"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CW2-qR-Uex" id="cda-iZ-PcQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="105"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gt4-oW-r2a">
-                                                    <rect key="frame" x="30" y="27.666666666666671" width="50" height="50"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="ZSv-va-JLo"/>
-                                                        <constraint firstAttribute="height" constant="50" id="oyf-Cp-A2c"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="USf-pN-DjF">
-                                                    <rect key="frame" x="90" y="26.000000000000004" width="290" height="53.333333333333343"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vow-6R-8B2">
-                                                            <rect key="frame" x="0.0" y="0.0" width="290" height="30"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="30" id="lDI-bt-Irx"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Twh-6P-3uh">
-                                                            <rect key="frame" x="0.0" y="33" width="290" height="20.333333333333329"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="USf-pN-DjF" secondAttribute="trailing" constant="10" id="9Dv-GK-7Zq"/>
-                                                <constraint firstItem="USf-pN-DjF" firstAttribute="centerY" secondItem="cda-iZ-PcQ" secondAttribute="centerY" id="BrI-qZ-5fY"/>
-                                                <constraint firstItem="USf-pN-DjF" firstAttribute="leading" secondItem="gt4-oW-r2a" secondAttribute="trailing" constant="10" id="Fi8-6Y-19Q"/>
-                                                <constraint firstItem="gt4-oW-r2a" firstAttribute="centerY" secondItem="cda-iZ-PcQ" secondAttribute="centerY" id="VGU-cM-LRI"/>
-                                                <constraint firstItem="gt4-oW-r2a" firstAttribute="leading" secondItem="cda-iZ-PcQ" secondAttribute="leadingMargin" constant="10" id="qLV-hH-7XW"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="currentTemperatureLabel" destination="Twh-6P-3uh" id="7al-oX-l54"/>
-                                            <outlet property="regionNameLabel" destination="Vow-6R-8B2" id="zmI-SX-maD"/>
-                                            <outlet property="weatherIcon" destination="gt4-oW-r2a" id="P7q-ou-onC"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="H76-As-LcE" secondAttribute="trailing" id="KH0-bX-wKH"/>
-                            <constraint firstItem="H76-As-LcE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="YMf-CV-zUn"/>
-                            <constraint firstAttribute="bottom" secondItem="H76-As-LcE" secondAttribute="bottom" id="fxc-QG-OWa"/>
-                            <constraint firstItem="H76-As-LcE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hR1-yd-8uY"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="List" id="iG3-fl-yXB"/>
-                    <connections>
-                        <outlet property="regionTableView" destination="H76-As-LcE" id="FKv-jv-iVu"/>
-                        <segue destination="bdm-vp-naC" kind="show" identifier="toDetailVC" id="sY0-2H-5yU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="925" y="-2"/>
-        </scene>
         <!--Home-->
         <scene sceneID="rqH-Cq-Q9Y">
             <objects>
@@ -332,7 +249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m4J-6E-kQv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1731" y="-2"/>
+            <point key="canvasLocation" x="705" y="-2"/>
         </scene>
         <!--Configure-->
         <scene sceneID="utr-8B-88H">
@@ -365,7 +282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f3c-Nd-iVz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2515" y="-2"/>
+            <point key="canvasLocation" x="1946" y="-2"/>
         </scene>
         <!--List-->
         <scene sceneID="CYb-Ko-hIU">
@@ -379,7 +296,7 @@
                                 <rect key="frame" x="0.0" y="131" width="390" height="679"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="68" id="NYP-z0-Rz2">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeatherCell" rowHeight="68" id="NYP-z0-Rz2" customClass="WeatherCell" customModule="Logan_Hackathon_WeatherApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="390" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NYP-z0-Rz2" id="BqM-eI-n6L">
@@ -400,6 +317,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="checkmark.circle" catalog="system" title=""/>
+                                                    <connections>
+                                                        <action selector="selectButtonTapped:" destination="NYP-z0-Rz2" eventType="touchUpInside" id="fQk-dy-Ne8"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1kV-cD-Mtg">
                                                     <rect key="frame" x="347" y="21.666666666666671" width="25" height="25"/>
@@ -409,6 +329,9 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title=""/>
+                                                    <connections>
+                                                        <action selector="likeButtonTapped:" destination="NYP-z0-Rz2" eventType="touchUpInside" id="2n8-BI-y8P"/>
+                                                    </connections>
                                                 </button>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun.min" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nJT-RF-FZZ">
                                                     <rect key="frame" x="20" y="9.9999999999999964" width="50" height="48.333333333333329"/>
@@ -429,6 +352,12 @@
                                                 <constraint firstItem="1kV-cD-Mtg" firstAttribute="centerY" secondItem="BqM-eI-n6L" secondAttribute="centerY" id="wbv-QP-e56"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="likeButton" destination="1kV-cD-Mtg" id="gL9-8q-4Kr"/>
+                                            <outlet property="regionNameLabel" destination="K5U-sy-Dzd" id="fmN-tr-nuw"/>
+                                            <outlet property="selectButton" destination="e7x-qZ-JQN" id="e16-bq-aqW"/>
+                                            <outlet property="weatherIcon" destination="nJT-RF-FZZ" id="QAi-Qj-7Qw"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -461,28 +390,31 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="List" id="I9y-lg-B7b"/>
+                    <connections>
+                        <outlet property="listTableView" destination="2MI-4j-BmO" id="gvK-bW-81g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nu6-8r-mNI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1730.7692307692307" y="688.86255924170609"/>
+            <point key="canvasLocation" x="705" y="707"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="F0z-X7-hQD">
+        <scene sceneID="igG-Fq-AFy">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aJ2-0e-DCa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3s5-gf-eSx" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zZI-k2-imU" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zdA-xp-zzG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="L3Y-2A-BVR">
                         <rect key="frame" x="0.0" y="47" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="H6l-vK-Yth"/>
+                        <segue destination="bdm-vp-naC" kind="relationship" relationship="rootViewController" id="yge-I5-mJd"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="His-DR-ggY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="140" y="-2.1327014218009479"/>
+            <point key="canvasLocation" x="-142" y="-2"/>
         </scene>
     </scenes>
     <resources>

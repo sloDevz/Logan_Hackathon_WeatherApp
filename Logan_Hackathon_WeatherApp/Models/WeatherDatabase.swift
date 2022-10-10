@@ -1,25 +1,20 @@
 //
-//  File.swift
+//  WeatherDatabase.swift
 //  Logan_Hackathon_WeatherApp
 //
-//  Created by DONGWOOK SEO on 2022/10/06.
+//  Created by DONGWOOK SEO on 2022/10/11.
 //
 
 import UIKit
 
-final class DataManager {
+final class WeatherDatabase {
     
-    
-    static var myWeatherViewList: [Weather] = []
-    static var myHome: Int?
-    
-    // 불러온 모든 도시들의 날씨 데이터
-    private static var allWeatherDataArray: [Weather] = [
+    private static var allDataArray: [Weather] = [
         Weather(iDnum: 0 ,name: "서울", description: .clear, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 1 ,name: "대전", description: .rain, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 2 ,name: "대구", description: .snow, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 3 ,name: "부산", description: .clear, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
-        Weather(isMyList: true,iDnum: 4 , name: "전주", description: .snow, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
+        Weather(iDnum: 4 , name: "전주", description: .snow, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 5 ,name: "일산", description: .clear, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 6 ,name: "평택", description: .fog, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 7 ,name: "과천", description: .cloud, currentTemperature: "27.5°C", currentHumidity: "30 %", maxTemperature: "29°C", minTemperature: "22°C"),
@@ -43,35 +38,9 @@ final class DataManager {
         Weather(iDnum: 25 ,name: "9---", description: .rain, currentTemperature: "--", currentHumidity: "--", maxTemperature: "--", minTemperature: "--"),
     ]
     
-    
-    
-    func addMyWeatherViewList(index:Int) {
-        print(#function)
-        DataManager.allWeatherDataArray[index].isMyList.toggle()
-        setMyWeatherViewList()
+    func getDatabase() -> [Weather] {
+        return WeatherDatabase.allDataArray
     }
     
-    //유저가 선택한 특정도시들의 날씨 추출
-    func setMyWeatherViewList() {
-        print(#function)
-        
-        DataManager.myWeatherViewList = DataManager.allWeatherDataArray.filter{ $0.isMyList }
-        var myArr = DataManager.myWeatherViewList
-        myArr.forEach{
-            guard let num = DataManager.myHome else {return}
-            if $0.iDnum == num {
-                myArr.remove(at: num)
-                myArr.append($0)
-            }
-        }
-        DataManager.myWeatherViewList = myArr
-    }
-    
-    func getMyWeatherViewList() -> [Weather] {
-        return DataManager.myWeatherViewList
-    }
-    
-    func getAllWeatherList() -> [Weather] {
-        return DataManager.allWeatherDataArray
-    }
 }
+

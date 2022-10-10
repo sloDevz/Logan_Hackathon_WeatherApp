@@ -20,6 +20,7 @@
 		F13C3E9028F1635300D66DD6 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C3E8F28F1635300D66DD6 /* CollectionViewCell.swift */; };
 		F16DCEA528F41A46007B3256 /* ConfigVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DCEA428F41A46007B3256 /* ConfigVC.swift */; };
 		F16DCEA728F41AD4007B3256 /* ConfigCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DCEA628F41AD4007B3256 /* ConfigCell.swift */; };
+		F16DCEA928F4ADDA007B3256 /* WeatherDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DCEA828F4ADDA007B3256 /* WeatherDatabase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		F13C3E8F28F1635300D66DD6 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		F16DCEA428F41A46007B3256 /* ConfigVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigVC.swift; sourceTree = "<group>"; };
 		F16DCEA628F41AD4007B3256 /* ConfigCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigCell.swift; sourceTree = "<group>"; };
+		F16DCEA828F4ADDA007B3256 /* WeatherDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDatabase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				F100D21828EDE14500F1664F /* Weather.swift */,
+				F16DCEA828F4ADDA007B3256 /* WeatherDatabase.swift */,
 				F100D21C28EDEF4400F1664F /* DataManager.swift */,
 			);
 			path = Models;
@@ -191,6 +194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F16DCEA928F4ADDA007B3256 /* WeatherDatabase.swift in Sources */,
 				F11BD77828ED791E00B9E3A8 /* ListViewController.swift in Sources */,
 				F100D21D28EDEF4400F1664F /* DataManager.swift in Sources */,
 				F13C3E9028F1635300D66DD6 /* CollectionViewCell.swift in Sources */,

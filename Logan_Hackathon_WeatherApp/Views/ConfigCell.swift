@@ -10,8 +10,7 @@ import UIKit
 class ConfigCell: UITableViewCell {
 
     
-    
-    @IBOutlet weak var configTextLabel: UILabel!
+
     
     
     

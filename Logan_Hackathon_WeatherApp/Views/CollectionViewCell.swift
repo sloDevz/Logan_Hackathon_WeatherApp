@@ -29,11 +29,11 @@ class CollectionViewCell: UICollectionViewCell {
     var idNum: Int!
     
     @IBAction func likeButtonTapped(_ sender: UIButton) {
-        if DataManager.myLikes != idNum {
-            DataManager.myLikes = idNum
+        if DataManager.myHome != idNum {
+            DataManager.myHome = idNum
             likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         } else {
-            DataManager.myLikes = nil
+            DataManager.myHome = nil
             likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
     }

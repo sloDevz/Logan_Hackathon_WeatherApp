@@ -14,7 +14,7 @@ class DetailCollectionViewController: UIViewController {
     
     let weatherDataManager = DataManager()
     let flowLayout = UICollectionViewFlowLayout()
-
+    
     // CLLocationManager 객체 생성
     let locationManager = CLLocationManager()
     
@@ -36,7 +36,7 @@ class DetailCollectionViewController: UIViewController {
         detailCollectionView.reloadData()
         
     }
-
+    
     
     //화면이 사라지고 다음으로 넘어갈때
     override func viewWillDisappear(_ animated: Bool) {
@@ -51,6 +51,7 @@ class DetailCollectionViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
+        
     }
     
     
@@ -64,9 +65,9 @@ class DetailCollectionViewController: UIViewController {
         flowLayout.scrollDirection = .horizontal
         
         
-        let screenHeight: CGFloat = self.view.frame.height
-        let screenWidth: CGFloat = self.view.frame.width
-        flowLayout.itemSize = CGSize(width: screenWidth, height: screenHeight)
+        //        let screenHeight: CGFloat = self.view.frame.height
+        //        let screenWidth: CGFloat = self.view.frame.width
+        //        flowLayout.itemSize = CGSize(width: screenWidth, height: screenHeight)
         // 아이템 사이 간격 설정
         flowLayout.minimumInteritemSpacing = 20
         // 아이템 위아래 사이 간격 설정
@@ -79,23 +80,44 @@ class DetailCollectionViewController: UIViewController {
     }
     
     @IBAction func locationButtonTapped(_ sender: UIButton) {
-        print("ReLocation ButtonTapped")
+        print(#function)
+        
+        let gpsstatus = CLLocationManager.authorizationStatus()
+        if gpsstatus == CLAuthorizationStatus.denied || gpsstatus == CLAuthorizationStatus.restricted || gpsstatus == CLAuthorizationStatus.notDetermined {
+            print("위도 경도 가져오기 - 권한 거부함")
+            
+            let alert = UIAlertController(title: "위치정보가 필요합니다.", message: "사용자의 위치정보를 사용하기 위해서는 위치정보사용 권한이 필요합니다. 권한설정을 위해 설정창으로 이동하시겠습니까?", preferredStyle: UIAlertController.Style.alert)
+            let yes = UIAlertAction(title: "예", style: UIAlertAction.Style.default){_ in
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }
+            let no = UIAlertAction(title: "아니오", style: UIAlertAction.Style.default)
+            
+            alert.addAction(yes)
+            alert.addAction(no)
+            self.present(alert, animated: true)
+        }
     }
+    
+    
     
     @IBAction func addButtonTapped(_ sender: UIButton) {
         self.performSegue(withIdentifier: "toListVC", sender: self)
-        print("AddButton Tapped")
+        print(#function)
     }
     
     @IBAction func configureTapped(_ sender: UIButton) {
-        print("Configure Button Tapped")
+        print(#function)
         performSegue(withIdentifier: "toConfigVC", sender: self)
     }
     
-    func goToViewController(where: String) {
-            let pushVC = self.storyboard?.instantiateViewController(withIdentifier: `where`)
-            self.navigationController?.pushViewController(pushVC!, animated: true)
-        }
+    
+    @IBAction func likeButtonTapped(_ sender: UIButton) {
+        print(#function)
+        
+    }
+    
+    
+    
     
     //MARK: - Segue prepare func
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -103,9 +125,10 @@ class DetailCollectionViewController: UIViewController {
         if segue.identifier == "toListVC" {
             let listVC = segue.destination as! ListViewController
             listVC.weatherDataManager = self.weatherDataManager
+            listVC.dataArray = weatherDataManager.getAllWeatherList()
         }
-        if segue.identifier == "toConfigureVC" {
-//            let configVC = segue.destination as! ConfigVC
+        if segue.identifier == "toConfigVC" {
+            let configVC = segue.destination as! ConfigVC
             
         }
     }
@@ -142,7 +165,7 @@ extension DetailCollectionViewController: UICollectionViewDataSource {
         cell.idNum = myList[indexPath.item].iDnum
         
         // likes라면 버튼모양 바꿈
-        if myList[indexPath.item].iDnum == DataManager.myLikes {
+        if myList[indexPath.item].iDnum == DataManager.myHome {
             cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }else {
             cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -169,7 +192,20 @@ extension DetailCollectionViewController : CLLocationManagerDelegate {
         default:
             print("GPS: default")
         }
-      }
-
+    }
+    
 }
 
+extension DetailCollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.bounds.size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return .zero
+    }
+}

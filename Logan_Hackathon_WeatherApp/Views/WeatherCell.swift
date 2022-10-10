@@ -40,6 +40,7 @@ class WeatherCell: UITableViewCell {
         }
         
         
+        
     }
 
     

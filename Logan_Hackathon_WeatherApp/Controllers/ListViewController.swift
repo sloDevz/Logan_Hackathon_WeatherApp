@@ -14,9 +14,11 @@ final class ListViewController: UIViewController {
     @IBOutlet weak var listTableView: UITableView!
     
     var weatherDataManager: DataManager?
+    var dataArray: [Weather]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         listTableView.dataSource = self
         listTableView.rowHeight = 80
@@ -31,6 +33,7 @@ final class ListViewController: UIViewController {
 
 //MARK: - Extensions below
 extension ListViewController : UITableViewDataSource, UITableViewDelegate {
+    
     //컨텐츠 몇개?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weatherDataManager!.getAllWeatherList().count
@@ -47,6 +50,12 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         cell.regionNameLabel.text = weather.name
         cell.weatherIcon.image = weather.icon
         cell.selectionStyle = .none
+        
+        if DataManager.myHome == weather.iDnum{
+            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            cell.likeButton.isHidden = true
+        }
         
         return cell
     }
@@ -66,4 +75,21 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         // 선택된 셀의 요소를 myCityList 배열중 가장 첫번째로 옮기기.
         //        weatherDataManager.myWeatherDataList.swapAt(0, indexPath.row)
     }
+  
+    
+    //스와이프해서 삭제 (일단 패스)
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//
+//          if editingStyle == .delete {
+//
+//              dataArray.remove(at: indexPath.row)
+//              tableView.deleteRows(at: [indexPath], with: .fade)
+//
+//          } else if editingStyle == .insert {
+//
+//          }
+//      }
+    
 }
+
+

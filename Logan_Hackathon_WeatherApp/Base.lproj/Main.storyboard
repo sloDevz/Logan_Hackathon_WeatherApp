@@ -162,7 +162,10 @@
                                                         <constraint firstAttribute="height" constant="25" id="aWo-Rp-muh"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="heart.circle" catalog="system" title=""/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title=""/>
+                                                    <connections>
+                                                        <action selector="likeButtonTapped:" destination="1z6-sd-32Y" eventType="touchUpInside" id="0SY-pg-voX"/>
+                                                    </connections>
                                                 </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vSM-Pc-i0J">
                                                     <rect key="frame" x="320" y="50" width="55" height="25"/>
@@ -220,6 +223,7 @@
                                         <connections>
                                             <outlet property="currentHumidityLabel" destination="hvv-nb-mgi" id="Jm5-8i-yaE"/>
                                             <outlet property="currentTemperatureLabel" destination="A0t-Dv-HkD" id="wKa-BW-gM4"/>
+                                            <outlet property="likeButton" destination="O0t-ex-DE0" id="l6w-Cv-YMm"/>
                                             <outlet property="maxTemperatureLabel" destination="Cv8-1W-qbv" id="XvF-h4-2ar"/>
                                             <outlet property="minTemperatureLabel" destination="zUV-Xw-ZPI" id="eOb-1P-D5K"/>
                                             <outlet property="regionNameLabel" destination="YhY-QD-yH0" id="32O-dY-7Nm"/>
@@ -244,7 +248,7 @@
                     <connections>
                         <outlet property="detailCollectionView" destination="7QF-tX-8EA" id="0xE-ME-5N1"/>
                         <segue destination="s5I-IC-9Lt" kind="show" identifier="toListVC" id="gXd-Yk-3t0"/>
-                        <segue destination="dNi-By-zD2" kind="show" identifier="toConfigureVC" id="bkI-Wo-acE"/>
+                        <segue destination="dNi-By-zD2" kind="show" identifier="toConfigVC" id="bkI-Wo-acE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m4J-6E-kQv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -254,35 +258,62 @@
         <!--Configure-->
         <scene sceneID="utr-8B-88H">
             <objects>
-                <viewController id="dNi-By-zD2" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f3c-Nd-iVz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="dNi-By-zD2" customClass="ConfigVC" customModule="Logan_Hackathon_WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1zK-uz-JqJ">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-XG-HmQ">
-                                <rect key="frame" x="75" y="358" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-XG-HmQ">
+                                <rect key="frame" x="0.0" y="91" width="390" height="719"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HrV-5t-2YO">
-                                        <rect key="frame" x="0.0" y="50" width="240" height="43.666667938232422"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConfigCell" rowHeight="94" id="HrV-5t-2YO" customClass="ConfigCell" customModule="Logan_Hackathon_WeatherApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="390" height="94"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HrV-5t-2YO" id="3aA-Bn-eJY">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43.666667938232422"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="94"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PzQ-Ll-aIa">
+                                                    <rect key="frame" x="145" y="27" width="100" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="41T-jV-gmN"/>
+                                                        <constraint firstAttribute="height" constant="40" id="5W6-wl-hhU"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="PzQ-Ll-aIa" firstAttribute="centerX" secondItem="3aA-Bn-eJY" secondAttribute="centerX" id="IDY-Kt-Ozy"/>
+                                                <constraint firstItem="PzQ-Ll-aIa" firstAttribute="centerY" secondItem="3aA-Bn-eJY" secondAttribute="centerY" id="faL-MG-Pnz"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="configTextLabel" destination="PzQ-Ll-aIa" id="gjK-6Q-xt6"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZYC-KS-1if"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WzL-XG-HmQ" firstAttribute="top" secondItem="ZYC-KS-1if" secondAttribute="top" id="7yf-Ns-dD0"/>
+                            <constraint firstItem="ZYC-KS-1if" firstAttribute="trailing" secondItem="WzL-XG-HmQ" secondAttribute="trailing" id="Nkh-ZC-HiT"/>
+                            <constraint firstItem="ZYC-KS-1if" firstAttribute="bottom" secondItem="WzL-XG-HmQ" secondAttribute="bottom" id="S24-Wq-yqz"/>
+                            <constraint firstItem="WzL-XG-HmQ" firstAttribute="leading" secondItem="ZYC-KS-1if" secondAttribute="leading" id="kGB-TJ-cBM"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Configure" id="zR6-6G-Cr7"/>
+                    <connections>
+                        <outlet property="configTableView" destination="WzL-XG-HmQ" id="mOr-uB-Idr"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="f3c-Nd-iVz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1946" y="-2"/>
+            <point key="canvasLocation" x="1607.6923076923076" y="-2.1327014218009479"/>
         </scene>
         <!--List-->
         <scene sceneID="CYb-Ko-hIU">
@@ -421,7 +452,6 @@
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="heart" catalog="system" width="128" height="107"/>
-        <image name="heart.circle" catalog="system" width="128" height="123"/>
         <image name="location.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="sun.min" catalog="system" width="128" height="123"/>

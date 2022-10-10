@@ -9,9 +9,7 @@ import UIKit
 
 class WeatherCell: UITableViewCell {
     
-
-    
-    var weatherDataManager: DataManager?
+    var isMyList: Bool?
     
     @IBOutlet weak var regionNameLabel: UILabel!
     
@@ -24,17 +22,24 @@ class WeatherCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        setUI()
-    }
-    
-    func setUI() {
-
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        setUI()
+        
         // Configure the view for the selected state
+    }
+    
+    func setUI() {
+        if isMyList! {
+            selectButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+        }else {
+            selectButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+        }
+        
+        
     }
 
     

@@ -14,15 +14,14 @@ class DetailCollectionViewController: UIViewController {
     
     let weatherDataManager = DataManager()
     let flowLayout = UICollectionViewFlowLayout()
-    
+
     // CLLocationManager 객체 생성
     let locationManager = CLLocationManager()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUI()
-        detailCollectionView.delegate = self
         setupCollectionView()
         
     }
@@ -33,7 +32,7 @@ class DetailCollectionViewController: UIViewController {
         
         // 네비게이션바 없앰
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        weatherDataManager.setMyWeatherViewList()
+        
         detailCollectionView.reloadData()
         
     }
@@ -49,15 +48,16 @@ class DetailCollectionViewController: UIViewController {
     
     func setUI(){
         weatherDataManager.setMyWeatherViewList()
-        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
     }
     
+    
     func setupCollectionView() {
         //컬렉션뷰의 레이아웃을 담당하는 객체
         
+        detailCollectionView.delegate = self
         detailCollectionView.dataSource = self
         detailCollectionView.backgroundColor = .clear
         // 컬렉션뷰의 스크롤 방향 설정
@@ -89,8 +89,13 @@ class DetailCollectionViewController: UIViewController {
     
     @IBAction func configureTapped(_ sender: UIButton) {
         print("Configure Button Tapped")
-        self.performSegue(withIdentifier: "toConfigureVC", sender: self)
+        performSegue(withIdentifier: "toConfigVC", sender: self)
     }
+    
+    func goToViewController(where: String) {
+            let pushVC = self.storyboard?.instantiateViewController(withIdentifier: `where`)
+            self.navigationController?.pushViewController(pushVC!, animated: true)
+        }
     
     //MARK: - Segue prepare func
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -98,10 +103,9 @@ class DetailCollectionViewController: UIViewController {
         if segue.identifier == "toListVC" {
             let listVC = segue.destination as! ListViewController
             listVC.weatherDataManager = self.weatherDataManager
-            listVC.myCityList = weatherDataManager.getMyWeatherViewList()
-            listVC.allCityList = weatherDataManager.getAllWeatherList()
         }
         if segue.identifier == "toConfigureVC" {
+//            let configVC = segue.destination as! ConfigVC
             
         }
     }
@@ -118,6 +122,7 @@ extension DetailCollectionViewController: UICollectionViewDataSource {
     
     //컬렉션뷰 몇개 만들지?
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return weatherDataManager.getMyWeatherViewList().count
     }
     
@@ -125,15 +130,23 @@ extension DetailCollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailViewCell", for: indexPath) as! CollectionViewCell
-        let myCityList = weatherDataManager.getMyWeatherViewList()
+        let myList = weatherDataManager.getMyWeatherViewList()
         
-        cell.regionNameLabel.text = myCityList[indexPath.item].name
-        cell.currentTemperatureLabel.text = myCityList[indexPath.item].currentTemperature
-        cell.weatherIcon.image = myCityList[indexPath.item].icon
-        cell.weatherDescriptionLabel.text = myCityList[indexPath.item].description.rawValue
-        cell.currentHumidityLabel.text = myCityList[indexPath.item].currentHumidity
-        cell.maxTemperatureLabel.text = myCityList[indexPath.item].maxTemperature
-        cell.minTemperatureLabel.text = myCityList[indexPath.item].minTemperature
+        cell.regionNameLabel.text = myList[indexPath.item].name
+        cell.currentTemperatureLabel.text = myList[indexPath.item].currentTemperature
+        cell.weatherIcon.image = myList[indexPath.item].icon
+        cell.weatherDescriptionLabel.text = myList[indexPath.item].description.rawValue
+        cell.currentHumidityLabel.text = myList[indexPath.item].currentHumidity
+        cell.maxTemperatureLabel.text = myList[indexPath.item].maxTemperature
+        cell.minTemperatureLabel.text = myList[indexPath.item].minTemperature
+        cell.idNum = myList[indexPath.item].iDnum
+        
+        // likes라면 버튼모양 바꿈
+        if myList[indexPath.item].iDnum == DataManager.myLikes {
+            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }else {
+            cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
         
         return cell
     }

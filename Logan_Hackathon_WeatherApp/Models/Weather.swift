@@ -18,6 +18,7 @@ struct Weather {
     }
     
     var isMyList: Bool = false
+    let iDnum: Int?
     var name: String
     var icon: UIImage {
         get{

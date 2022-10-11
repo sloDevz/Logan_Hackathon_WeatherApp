@@ -24,7 +24,9 @@ class ConfigVC: UIViewController {
     
     func setupUI() {
         
-        
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "지역 찾기"
+        self.navigationItem.titleView = searchBar
         myLocationToggle.setTitle("", for: .normal)
         let isOn = weatherDataManager.isMyLocationOn()
         if  isOn {

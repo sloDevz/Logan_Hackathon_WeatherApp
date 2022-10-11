@@ -23,8 +23,8 @@
                                     <constraint firstAttribute="width" secondItem="r9H-Jg-aDb" secondAttribute="height" multiplier="1:1" id="S65-Jb-1JC"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="designed by slography.co" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLU-8T-r3W">
-                                <rect key="frame" x="10" y="785.66666666666663" width="370" height="19.333333333333371"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="designed by slography" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLU-8T-r3W">
+                                <rect key="frame" x="10" y="790" width="370" height="20"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
                                 <color key="textColor" systemColor="systemBlueColor"/>
                                 <nil key="highlightedColor"/>
@@ -39,7 +39,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="r9H-Jg-aDb" secondAttribute="trailing" constant="10" id="VZV-6S-0QS"/>
                             <constraint firstItem="r9H-Jg-aDb" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="kVa-IJ-ovV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OLU-8T-r3W" secondAttribute="trailing" constant="10" id="qFQ-2W-7IE"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OLU-8T-r3W" secondAttribute="bottom" constant="5" id="vYd-00-bot"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OLU-8T-r3W" secondAttribute="bottom" id="vYd-00-bot"/>
                             <constraint firstItem="r9H-Jg-aDb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wfK-fA-Yup"/>
                         </constraints>
                     </view>

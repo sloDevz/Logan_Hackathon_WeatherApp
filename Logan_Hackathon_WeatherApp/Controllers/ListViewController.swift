@@ -19,6 +19,10 @@ final class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "지역 찾기"
+        self.navigationItem.titleView = searchBar
+        
         
         listTableView.dataSource = self
         listTableView.rowHeight = 80

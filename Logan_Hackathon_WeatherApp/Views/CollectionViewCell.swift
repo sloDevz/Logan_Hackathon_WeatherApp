@@ -23,20 +23,8 @@ class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var minTemperatureLabel: UILabel!
     
-    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var homeButton: UIButton!
     
-    
-    var idNum: Int!
-    
-    @IBAction func likeButtonTapped(_ sender: UIButton) {
-        if DataManager.myHome != idNum {
-            DataManager.myHome = idNum
-            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        } else {
-            DataManager.myHome = nil
-            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
-    }
-    
-    
+    @IBOutlet weak var pageControl: UIPageControl!
+
 }

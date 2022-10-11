@@ -12,8 +12,14 @@ class DetailCollectionViewController: UIViewController {
     
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
+    
+    
     let weatherDataManager = DataManager()
     let flowLayout = UICollectionViewFlowLayout()
+    var currentPageIndex:Int = 0
+    
+    
+    
     
     // CLLocationManager 객체 생성
     let locationManager = CLLocationManager()
@@ -51,7 +57,6 @@ class DetailCollectionViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-        
     }
     
     
@@ -112,11 +117,44 @@ class DetailCollectionViewController: UIViewController {
     
     
     @IBAction func likeButtonTapped(_ sender: UIButton) {
+        print("DC-VC-------------------------")
         print(#function)
+        print("Myhome is: -------- \(DataManager.myHome)")
         
+        let currentPageItem = weatherDataManager.getMyWeatherViewList()[currentPageIndex]
+        
+        if DataManager.myHome != currentPageItem.iDnum {
+//            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
+            DataManager.myHome = currentPageItem.iDnum!
+            weatherDataManager.setMyWeatherViewList()
+            popAlertSomeSec(title: "\(currentPageItem.name) 등록완료", message: "집으로 등록되었습니다.", interval: 1.8)
+        } else {
+            popAlertSomeSec(title: "알 림", message: "이미 집으로 등록된 지역입니다.", interval: 1.8)
+        }
+  
+
+        weatherDataManager.setMyWeatherViewList()
+        detailCollectionView.reloadData()
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        for cell in detailCollectionView.visibleCells {
+            let indexPath = detailCollectionView.indexPath(for: cell)
+            currentPageIndex = indexPath!.row
+            print("VisibleCell----################ ")
+            print(indexPath!.row)
+            print("############################### ")
+        }
     }
     
     
+    func popAlertSomeSec(title: String, message: String, interval: Double){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert) // 이 메세지 부분에 내가 원하는 문구를 넣으면 된다.
+                
+        self.present(alert, animated: true, completion: nil) // 만약 이 코드를 실행시키는 곳이 ViewController가 아니라면 임의로 뷰 컨트롤러를 설정해서 present하자.
+
+        Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} ) // TimeInterval 값을 조정해서 얼마나 떠 있게 할 지 조정하면 된다.
+    }
     
     
     //MARK: - Segue prepare func
@@ -137,11 +175,8 @@ class DetailCollectionViewController: UIViewController {
 }
 
 //MARK: - Extensions below
-extension DetailCollectionViewController: UICollectionViewDelegate{
-    
-}
 
-extension DetailCollectionViewController: UICollectionViewDataSource {
+extension DetailCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     //컬렉션뷰 몇개 만들지?
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -162,17 +197,19 @@ extension DetailCollectionViewController: UICollectionViewDataSource {
         cell.currentHumidityLabel.text = myList[indexPath.item].currentHumidity
         cell.maxTemperatureLabel.text = myList[indexPath.item].maxTemperature
         cell.minTemperatureLabel.text = myList[indexPath.item].minTemperature
-        cell.idNum = myList[indexPath.item].iDnum
+
         
-        // likes라면 버튼모양 바꿈
-        if myList[indexPath.item].iDnum == DataManager.myHome {
-            cell.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        
+        if myList[indexPath.row].iDnum == DataManager.myHome {
+            cell.homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
         }else {
-            cell.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            cell.homeButton.setImage(UIImage(systemName: "house"), for: .normal)
         }
+        print("Cell 설정 완료  ############################")
+        
         
         return cell
-    }
+    } 
 }
 
 //MARK: - Get permission to access Location
@@ -183,12 +220,15 @@ extension DetailCollectionViewController : CLLocationManagerDelegate {
         switch status {
         case .restricted, .notDetermined:
             print("사용자: 위치 사용 여부 체크중")
-        case .authorizedAlways, .authorizedWhenInUse:
+        case .authorizedAlways, .authorizedWhenInUse: // 허용
+            weatherDataManager.toggleMyLocationPermission()
             print("사용자: 위치 허용")
             self.locationManager.startUpdatingLocation()
+            
         case .denied: //허용거부
             self.performSegue(withIdentifier: "toListVC", sender: self)
             print("사용자: 위치사용 거부")
+            
         default:
             print("GPS: default")
         }

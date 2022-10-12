@@ -21,7 +21,6 @@ class ConfigVC: UIViewController {
         setupUI()
     }
     
-    
     func setupUI() {
         
         let searchBar = UISearchBar()

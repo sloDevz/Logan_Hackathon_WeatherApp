@@ -127,34 +127,56 @@ class DetailCollectionViewController: UIViewController {
 //            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
             DataManager.myHome = currentPageItem.iDnum!
             weatherDataManager.setMyWeatherViewList()
-            popAlertSomeSec(title: "\(currentPageItem.name) 등록완료", message: "집으로 등록되었습니다.", interval: 1.8)
+            showToast(message: "\(currentPageItem.name) - 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35)
         } else {
-            popAlertSomeSec(title: "알 림", message: "이미 집으로 등록된 지역입니다.", interval: 1.8)
+            showToast(message: "이미 집으로 등록되어있습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35)
         }
-  
+        
+        
 
         weatherDataManager.setMyWeatherViewList()
         detailCollectionView.reloadData()
     }
     
+    // 이부분 호출이 느린이유를 알고, 해결할 것. ⭐️⭐️⭐️⭐️
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         for cell in detailCollectionView.visibleCells {
             let indexPath = detailCollectionView.indexPath(for: cell)
             currentPageIndex = indexPath!.row
-            print("VisibleCell----################ ")
+            print("VisibleCell ====################")
             print(indexPath!.row)
-            print("############################### ")
+            print("--------------------------------\n")
         }
     }
     
     
     func popAlertSomeSec(title: String, message: String, interval: Double){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert) // 이 메세지 부분에 내가 원하는 문구를 넣으면 된다.
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 
-        self.present(alert, animated: true, completion: nil) // 만약 이 코드를 실행시키는 곳이 ViewController가 아니라면 임의로 뷰 컨트롤러를 설정해서 present하자.
-
-        Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} ) // TimeInterval 값을 조정해서 얼마나 떠 있게 할 지 조정하면 된다.
+        self.present(alert, animated: true, completion: nil)
+        
+        Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
     }
+    
+    
+    open func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat) {
+        // 메세지창 위치지정
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.width/2 - width/2, y: self.view.frame.size.height-100, width: width, height: height))
+                toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+                toastLabel.textColor = UIColor.white
+                toastLabel.font = font
+                toastLabel.textAlignment = .center;
+                toastLabel.text = message
+                toastLabel.alpha = 1.0
+                toastLabel.layer.cornerRadius = 10;
+                toastLabel.clipsToBounds  =  true
+                self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 1.8, delay: 1, options: .curveEaseOut, animations: {
+                     toastLabel.alpha = 0.0
+                }, completion: {(isCompleted) in
+                    toastLabel.removeFromSuperview()
+                })
+            }
     
     
     //MARK: - Segue prepare func
@@ -205,7 +227,7 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
         }else {
             cell.homeButton.setImage(UIImage(systemName: "house"), for: .normal)
         }
-        print("Cell 설정 완료  ############################")
+        print("Cell 구성 완료")
         
         
         return cell

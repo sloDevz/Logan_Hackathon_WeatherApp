@@ -14,29 +14,29 @@ final class ListViewController: UIViewController {
     @IBOutlet weak var listTableView: UITableView!
     
     var weatherDataManager: DataManager?
+    //    override var searchDisplayController = UISearchController()
     var dataArray: [Weather]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "지역 찾기"
-        self.navigationItem.titleView = searchBar
+        setUp()
         
-        
+    }
+    
+    func setUp() {
+        title = "List"
         listTableView.dataSource = self
         listTableView.rowHeight = 80
         listTableView.delegate = self
-        
     }
     
 }
 
-
-
-
 //MARK: - Extensions below
 extension ListViewController : UITableViewDataSource, UITableViewDelegate {
+    
+    
     
     //컨텐츠 몇개?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

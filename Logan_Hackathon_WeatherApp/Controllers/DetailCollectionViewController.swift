@@ -10,12 +10,15 @@ import CoreLocation
 
 class DetailCollectionViewController: UIViewController {
     
+    
+    
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
     
     
     let weatherDataManager = DataManager()
     let flowLayout = UICollectionViewFlowLayout()
+    let searchController = UISearchController()
     var currentPageIndex:Int = 0
     
     
@@ -37,7 +40,7 @@ class DetailCollectionViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // 네비게이션바 없앰
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
         
         detailCollectionView.reloadData()
         
@@ -48,11 +51,14 @@ class DetailCollectionViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 네비게이션바 다시 표시
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+//        navigationController?.setNavigationBarHidden(false, animated: animated)
         
     }
     
     func setUI(){
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        
         weatherDataManager.setMyWeatherViewList()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
@@ -69,10 +75,6 @@ class DetailCollectionViewController: UIViewController {
         // 컬렉션뷰의 스크롤 방향 설정
         flowLayout.scrollDirection = .horizontal
         
-        
-        //        let screenHeight: CGFloat = self.view.frame.height
-        //        let screenWidth: CGFloat = self.view.frame.width
-        //        flowLayout.itemSize = CGSize(width: screenWidth, height: screenHeight)
         // 아이템 사이 간격 설정
         flowLayout.minimumInteritemSpacing = 20
         // 아이템 위아래 사이 간격 설정
@@ -197,6 +199,15 @@ class DetailCollectionViewController: UIViewController {
 }
 
 //MARK: - Extensions below
+
+extension DetailCollectionViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
+    }
+}
+
 
 extension DetailCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     

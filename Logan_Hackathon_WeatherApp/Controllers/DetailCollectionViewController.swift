@@ -40,7 +40,7 @@ class DetailCollectionViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // 네비게이션바 없앰
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
+        //        navigationController?.setNavigationBarHidden(true, animated: animated)
         
         detailCollectionView.reloadData()
         
@@ -51,7 +51,7 @@ class DetailCollectionViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 네비게이션바 다시 표시
-//        navigationController?.setNavigationBarHidden(false, animated: animated)
+        //        navigationController?.setNavigationBarHidden(false, animated: animated)
         
     }
     
@@ -102,6 +102,8 @@ class DetailCollectionViewController: UIViewController {
             alert.addAction(yes)
             alert.addAction(no)
             self.present(alert, animated: true)
+        } else {
+            showToast(message: "이미 위치정보를 사용중입니다.", font: UIFont.systemFont(ofSize: 15), width: 300, height: 40, boxColor: UIColor.red)
         }
     }
     
@@ -126,16 +128,16 @@ class DetailCollectionViewController: UIViewController {
         let currentPageItem = weatherDataManager.getMyWeatherViewList()[currentPageIndex]
         
         if DataManager.myHome != currentPageItem.iDnum {
-//            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
+            //            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
             DataManager.myHome = currentPageItem.iDnum!
             weatherDataManager.setMyWeatherViewList()
-            showToast(message: "\(currentPageItem.name) - 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35)
+            showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
         } else {
-            showToast(message: "이미 집으로 등록되어있습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35)
+            showToast(message: "이미 집으로 등록된 지역입니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35, boxColor: UIColor.blue)
         }
         
         
-
+        
         weatherDataManager.setMyWeatherViewList()
         detailCollectionView.reloadData()
     }
@@ -154,31 +156,31 @@ class DetailCollectionViewController: UIViewController {
     
     func popAlertSomeSec(title: String, message: String, interval: Double){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                
+        
         self.present(alert, animated: true, completion: nil)
         
         Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: { _ in alert.dismiss(animated: true, completion: nil)} )
     }
     
     
-    open func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat) {
+    open func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat, boxColor: UIColor) {
         // 메세지창 위치지정
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.width/2 - width/2, y: self.view.frame.size.height-100, width: width, height: height))
-                toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-                toastLabel.textColor = UIColor.white
-                toastLabel.font = font
-                toastLabel.textAlignment = .center;
-                toastLabel.text = message
-                toastLabel.alpha = 1.0
-                toastLabel.layer.cornerRadius = 10;
-                toastLabel.clipsToBounds  =  true
-                self.view.addSubview(toastLabel)
+        toastLabel.backgroundColor = boxColor.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
         UIView.animate(withDuration: 1.8, delay: 1, options: .curveEaseOut, animations: {
-                     toastLabel.alpha = 0.0
-                }, completion: {(isCompleted) in
-                    toastLabel.removeFromSuperview()
-                })
-            }
+            toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
     
     
     //MARK: - Segue prepare func
@@ -230,7 +232,7 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
         cell.currentHumidityLabel.text = myList[indexPath.item].currentHumidity
         cell.maxTemperatureLabel.text = myList[indexPath.item].maxTemperature
         cell.minTemperatureLabel.text = myList[indexPath.item].minTemperature
-
+        
         
         
         if myList[indexPath.row].iDnum == DataManager.myHome {
@@ -242,7 +244,7 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
         
         
         return cell
-    } 
+    }
 }
 
 //MARK: - Get permission to access Location

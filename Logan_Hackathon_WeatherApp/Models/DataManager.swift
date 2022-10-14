@@ -10,6 +10,8 @@ import UIKit
 final class DataManager {
     
     static var usingLocation: Bool = false
+    
+    // 처음엔 비어있어
     static var myWeatherViewList: [Weather] = []
     static var myHome: Int = 4 {
         didSet {
@@ -55,6 +57,7 @@ final class DataManager {
         DataManager.usingLocation.toggle()
     }
     
+    // 초기 화면에 표시될 지역 리스트에 넣기.
     func addMyWeatherViewList(index:Int) {
         print(#function)
         DataManager.allWeatherDataArray[index].isMyList.toggle()
@@ -65,7 +68,10 @@ final class DataManager {
     func setMyWeatherViewList() {
         print(#function)
         
+        // 초기화면에 출력될 지역들 선별
         DataManager.myWeatherViewList = DataManager.allWeatherDataArray.filter{ $0.isMyList }
+        
+        // 홈 지역을 맨 앞으로
         var myArr = DataManager.myWeatherViewList
         var index = 0
         let HomeId = DataManager.myHome

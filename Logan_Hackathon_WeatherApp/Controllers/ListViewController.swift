@@ -12,6 +12,7 @@ import CoreLocation
 final class ListViewController: UIViewController {
     
     @IBOutlet weak var listTableView: UITableView!
+    let searchController = UISearchController()
     
     var weatherDataManager: DataManager?
     //    override var searchDisplayController = UISearchController()
@@ -25,7 +26,7 @@ final class ListViewController: UIViewController {
     }
     
     func setUp() {
-        title = "List"
+//        searchController.searchResultsUpdater = self
         listTableView.dataSource = self
         listTableView.rowHeight = 80
         listTableView.delegate = self

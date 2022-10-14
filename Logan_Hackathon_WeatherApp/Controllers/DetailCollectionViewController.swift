@@ -39,6 +39,7 @@ class DetailCollectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
         // 네비게이션바 없앰
         //        navigationController?.setNavigationBarHidden(true, animated: animated)
         

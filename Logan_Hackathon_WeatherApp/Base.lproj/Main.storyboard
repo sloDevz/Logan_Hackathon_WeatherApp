@@ -49,23 +49,31 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="bmu-zj-awy">
-                                                    <rect key="frame" x="119.66666666666669" y="468.33333333333326" width="151" height="92"/>
+                                                    <rect key="frame" x="121.66666666666669" y="468.33333333333326" width="147" height="92"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ejv-aA-keP">
-                                                            <rect key="frame" x="0.0" y="0.0" width="151" height="30"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="147" height="30"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="습        도" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hgo-di-XCe">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="drop.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qKC-lW-54l">
+                                                                    <rect key="frame" x="0.0" y="1" width="30" height="27.666666666666668"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="30" id="1HL-po-otP"/>
+                                                                        <constraint firstAttribute="height" constant="30" id="q1s-wX-R2F"/>
+                                                                    </constraints>
+                                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="8" scale="small" weight="ultraLight"/>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="습        도" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hgo-di-XCe">
+                                                                    <rect key="frame" x="30.999999999999986" y="0.0" width="65" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="LCi-qd-Y3k"/>
-                                                                        <constraint firstAttribute="width" constant="100" id="wCz-cn-vaj"/>
+                                                                        <constraint firstAttribute="width" constant="65" id="wCz-cn-vaj"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvv-nb-mgi">
-                                                                    <rect key="frame" x="100.99999999999999" y="0.0" width="50.000000000000014" height="30"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvv-nb-mgi">
+                                                                    <rect key="frame" x="96.999999999999986" y="0.0" width="50.000000000000014" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="50" id="krQ-fJ-fZg"/>
                                                                         <constraint firstAttribute="height" constant="30" id="sfU-71-2LR"/>
@@ -77,20 +85,27 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="CWT-Od-1s6">
-                                                            <rect key="frame" x="0.0" y="31" width="151" height="30"/>
+                                                            <rect key="frame" x="0.0" y="31" width="147" height="30"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최고기온" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-jK-Sc0">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thermometer.high" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="FKK-iQ-FgX">
+                                                                    <rect key="frame" x="0.0" y="-3.5527136788005009e-15" width="30" height="30.333333333333336"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="100" id="MVD-cW-ngS"/>
+                                                                        <constraint firstAttribute="width" constant="30" id="5Gq-ag-jp1"/>
+                                                                        <constraint firstAttribute="height" constant="30" id="N8F-5D-HlK"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최고기온" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-jK-Sc0">
+                                                                    <rect key="frame" x="30.999999999999986" y="0.0" width="65" height="30"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="65" id="MVD-cW-ngS"/>
                                                                         <constraint firstAttribute="height" constant="30" id="bR0-lx-KEP"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cv8-1W-qbv">
-                                                                    <rect key="frame" x="100.99999999999999" y="0.0" width="50.000000000000014" height="30"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cv8-1W-qbv">
+                                                                    <rect key="frame" x="96.999999999999986" y="0.0" width="50.000000000000014" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="8HK-8z-4f9"/>
                                                                         <constraint firstAttribute="width" constant="50" id="RV3-V8-w59"/>
@@ -102,20 +117,27 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="rCC-eP-oi2">
-                                                            <rect key="frame" x="0.0" y="62.000000000000057" width="151" height="30"/>
+                                                            <rect key="frame" x="0.0" y="62.000000000000057" width="147" height="30"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최저기온" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntc-x7-HMf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="thermometer.low" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="5gk-JW-VTw">
+                                                                    <rect key="frame" x="0.0" y="-3.5527136788005009e-15" width="30" height="30.333333333333336"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="30" id="OSK-iF-pPC"/>
+                                                                        <constraint firstAttribute="height" constant="30" id="Szi-bh-E7X"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="최저기온" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntc-x7-HMf">
+                                                                    <rect key="frame" x="30.999999999999986" y="0.0" width="65" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="SEp-eu-c49"/>
-                                                                        <constraint firstAttribute="width" constant="100" id="fpZ-wR-7A3"/>
+                                                                        <constraint firstAttribute="width" constant="65" id="fpZ-wR-7A3"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUV-Xw-ZPI">
-                                                                    <rect key="frame" x="100.99999999999999" y="0.0" width="50.000000000000014" height="30"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUV-Xw-ZPI">
+                                                                    <rect key="frame" x="96.999999999999986" y="0.0" width="50.000000000000014" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="50" id="7KE-bb-FC8"/>
                                                                         <constraint firstAttribute="height" constant="30" id="lGG-Bd-dFe"/>
@@ -257,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m4J-6E-kQv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="705" y="-2"/>
+            <point key="canvasLocation" x="704.61538461538464" y="-2.1327014218009479"/>
         </scene>
         <!--Configure-->
         <scene sceneID="utr-8B-88H">
@@ -421,26 +443,13 @@
                     <view key="view" contentMode="scaleToFill" id="Zle-8R-CDZ">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hBt-iu-0VF">
-                                <rect key="frame" x="75" y="358" width="240" height="128"/>
-                                <viewLayoutGuide key="contentLayoutGuide" id="IvZ-fc-1SR"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="tX0-PH-ykV"/>
-                            </scrollView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="cRf-fC-Eht"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="cRf-fC-Eht" firstAttribute="bottom" secondItem="hBt-iu-0VF" secondAttribute="bottom" id="EtE-8Z-cYw"/>
-                            <constraint firstItem="cRf-fC-Eht" firstAttribute="trailing" secondItem="hBt-iu-0VF" secondAttribute="trailing" id="HcO-Sp-zYr"/>
-                            <constraint firstItem="hBt-iu-0VF" firstAttribute="leading" secondItem="cRf-fC-Eht" secondAttribute="leading" id="gMf-WY-a2G"/>
-                            <constraint firstItem="hBt-iu-0VF" firstAttribute="top" secondItem="cRf-fC-Eht" secondAttribute="top" id="i6G-tH-hRM"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PvE-gI-Nhq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2389" y="-2"/>
+            <point key="canvasLocation" x="2909" y="-2"/>
         </scene>
         <!--List-->
         <scene sceneID="CYb-Ko-hIU">
@@ -559,11 +568,14 @@
     </scenes>
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
+        <image name="drop.fill" catalog="system" width="96" height="128"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="location.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="sun.min" catalog="system" width="128" height="123"/>
+        <image name="thermometer.high" catalog="system" width="80" height="128"/>
+        <image name="thermometer.low" catalog="system" width="80" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

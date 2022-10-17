@@ -11,11 +11,12 @@ final class DataManager {
     
     static var usingLocation: Bool = false
     
-    // 처음엔 비어있어
+    // 처음엔 비어있음
     static var myWeatherViewList: [Weather] = []
-    static var myHome: Int = 4 {
+    // 초기값은 전주
+    static var myHome: Weather = allWeatherDataArray[4] {
         didSet {
-            print("\(oldValue) ----> \(myHome)")
+            print(" Home : \(oldValue.name) ----> \(myHome.name)")
         }
     }
     
@@ -64,6 +65,8 @@ final class DataManager {
         setMyWeatherViewList()
     }
     
+ 
+    
     //유저가 선택한 특정도시들의 날씨 추출
     func setMyWeatherViewList() {
         print(#function)
@@ -74,9 +77,9 @@ final class DataManager {
         // 홈 지역을 맨 앞으로
         var myArr = DataManager.myWeatherViewList
         var index = 0
-        let HomeId = DataManager.myHome
+        let home = DataManager.myHome
         myArr.forEach{
-            if $0.iDnum == HomeId {
+            if $0.name == home.name {
                 myArr.swapAt(0,index)
                 print(myArr)
             }

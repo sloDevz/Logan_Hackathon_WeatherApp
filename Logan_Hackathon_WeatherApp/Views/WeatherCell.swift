@@ -10,8 +10,8 @@ import UIKit
 class WeatherCell: UITableViewCell {
     
     var isMyList: Bool?
-    var myHome: Int!
-    var myId: Int!
+    var myHome: Weather?
+    var myName: String!
     
     @IBOutlet weak var regionNameLabel: UILabel!
     
@@ -41,7 +41,7 @@ class WeatherCell: UITableViewCell {
             selectButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
         }
         
-        if myHome == myId {
+        if myHome!.name == myName {
 //            print("############################ myHomeID: \(myHome) // myID: \(myId)")
             likeButton.isHidden = false
             likeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)

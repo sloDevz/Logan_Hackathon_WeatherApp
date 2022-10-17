@@ -9,14 +9,18 @@ import UIKit
 import CoreLocation
 
 
-final class ListViewController: UIViewController {
+class ListViewController: UIViewController {
+    
+    
+    
     
     @IBOutlet weak var listTableView: UITableView!
+    
     let searchController = UISearchController()
     
     var weatherDataManager: DataManager?
-    //    override var searchDisplayController = UISearchController()
-    var dataArray: [Weather]?
+    
+    var filteredData: [Weather]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +30,11 @@ final class ListViewController: UIViewController {
     }
     
     func setUp() {
-//        searchController.searchResultsUpdater = self
+        
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
+        
         listTableView.dataSource = self
         listTableView.rowHeight = 80
         listTableView.delegate = self
@@ -35,29 +43,79 @@ final class ListViewController: UIViewController {
 }
 
 //MARK: - Extensions below
+
+extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        print(text)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        filteredData = []
+        
+        let index = navigationController!.viewControllers.count - 2
+        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+        vc.weatherDataManager.setMyWeatherViewList()
+        
+        if searchText == "" {
+            filteredData = vc.weatherDataManager.getAllWeatherList()
+        }
+        else {
+            for weatherData in vc.weatherDataManager.getAllWeatherList() {
+                if weatherData.name == searchText {
+                    filteredData?.append(weatherData)
+                }
+            }
+        }
+        self.listTableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        let index = navigationController!.viewControllers.count - 2
+        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+        vc.weatherDataManager.setMyWeatherViewList()
+        
+        vc.weatherDataManager.setMyWeatherViewList()
+        
+        filteredData = vc.weatherDataManager.getAllWeatherList()
+        listTableView.reloadData()
+        
+    }
+    
+}
+
 extension ListViewController : UITableViewDataSource, UITableViewDelegate {
-    
-    
     
     //컨텐츠 몇개?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherDataManager!.getAllWeatherList().count
+        return filteredData!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         // dequeueReusableCell의 리턴값이 UITableViewCell 이기 때문에 MovieCell 타입으로 다시 캐스팅 해줘야함.
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
         
-        let array = weatherDataManager?.getAllWeatherList()
-        let weather = array![indexPath.row] //이걸로 코드 줄여도 됨
+        let index = navigationController!.viewControllers.count - 2  // 바로 전 화면 인덱스
+        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+        
+        // filteredData의 데이터를 최신화하기 위함.
+        var array: [Weather] = []
+        vc.weatherDataManager.getAllWeatherList().forEach{ data in
+            let result = filteredData?.filter{ $0.name == data.name}
+            if let result { array.append(contentsOf: result)}
+        }
+        
+//        let array = filteredData
+        let weather = array[indexPath.row] //이걸로 코드 줄여도 됨
         
         cell.myHome = DataManager.myHome
-        cell.myId = weather.iDnum
         cell.isMyList = weather.isMyList
         cell.regionNameLabel.text = weather.name
         cell.weatherIcon.image = weather.icon
         cell.selectionStyle = .none
-        
         
         return cell
     }
@@ -68,15 +126,16 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         // 세그웨이를 사용할땐 항상 사용. ( sender는 정보전달 )
         print(#function)
         
-        let selectedItem = weatherDataManager!.getAllWeatherList()[indexPath.row]
+        let selectedItem = filteredData![indexPath.row]
+        print("\(selectedItem.name) 선택됨@@@@@@@@@1111111111111111111111111111111")
         
-        
-        if selectedItem.iDnum == DataManager.myHome {
+        if selectedItem.name == DataManager.myHome.name {
             popOneButtonAlertUp(title: "집으로 설정된 지역입니다", message: "집은 홈 리스트에서 제거할 수 없어요, 홈 화면에서 집을 변경해주세요", buttonLetter: "알겠습니다")
             return
         }
         
         tableView.beginUpdates()
+        
         let pathIndex = indexPath.row
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
@@ -88,13 +147,17 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         }else{
             vc.weatherDataManager.addMyWeatherViewList(index: pathIndex)
         }
+        filteredData = vc.weatherDataManager.getAllWeatherList()
         tableView.reloadData()
         tableView.endUpdates()
         print(DataManager.myHome)
-        print(selectedItem.iDnum)
-        // 선택된 셀의 요소를 myCityList 배열중 가장 첫번째로 옮기기.
-        //        weatherDataManager.myWeatherDataList.swapAt(0, indexPath.row)
+        print(selectedItem.iDnum!)
+        print("선택 업로드 완료!!!!!!!!!!")
     }
+    
+    
+    
+
     
     
     func popOneButtonAlertUp(title: String, message: String, buttonLetter: String) {
@@ -120,5 +183,6 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     //      }
     
 }
+
 
 

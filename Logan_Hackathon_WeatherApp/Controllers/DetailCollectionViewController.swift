@@ -18,7 +18,7 @@ class DetailCollectionViewController: UIViewController {
     
     let weatherDataManager = DataManager()
     let flowLayout = UICollectionViewFlowLayout()
-    let searchController = UISearchController()
+    
     var currentPageIndex:Int = 0
     
     
@@ -57,8 +57,7 @@ class DetailCollectionViewController: UIViewController {
     }
     
     func setUI(){
-        navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
+        
         
         weatherDataManager.setMyWeatherViewList()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
@@ -128,9 +127,9 @@ class DetailCollectionViewController: UIViewController {
         
         let currentPageItem = weatherDataManager.getMyWeatherViewList()[currentPageIndex]
         
-        if DataManager.myHome != currentPageItem.iDnum {
+        if DataManager.myHome.iDnum != currentPageItem.iDnum {
             //            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
-            DataManager.myHome = currentPageItem.iDnum!
+            DataManager.myHome = currentPageItem
             weatherDataManager.setMyWeatherViewList()
             showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
         } else {
@@ -190,7 +189,7 @@ class DetailCollectionViewController: UIViewController {
         if segue.identifier == "toListVC" {
             let listVC = segue.destination as! ListViewController
             listVC.weatherDataManager = self.weatherDataManager
-            listVC.dataArray = weatherDataManager.getAllWeatherList()
+            listVC.filteredData = weatherDataManager.getAllWeatherList()
         }
         if segue.identifier == "toConfigVC" {
             let configVC = segue.destination as! ConfigVC
@@ -203,13 +202,7 @@ class DetailCollectionViewController: UIViewController {
 
 //MARK: - Extensions below
 
-extension DetailCollectionViewController: UISearchResultsUpdating {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        print(text)
-    }
-}
+
 
 
 extension DetailCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -236,12 +229,12 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
         
         
         
-        if myList[indexPath.row].iDnum == DataManager.myHome {
+        if myList[indexPath.row].name == DataManager.myHome.name {
             cell.homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
         }else {
             cell.homeButton.setImage(UIImage(systemName: "house"), for: .normal)
         }
-        print("Cell 구성 완료")
+        print("Collection View Cell 구성 완료")
         
         
         return cell

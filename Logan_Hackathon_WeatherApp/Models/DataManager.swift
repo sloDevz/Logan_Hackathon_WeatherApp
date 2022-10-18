@@ -14,11 +14,7 @@ final class DataManager {
     // 처음엔 비어있음
     static var myWeatherViewList: [Weather] = []
     // 초기값은 전주
-    static var myHome: Weather = allWeatherDataArray[4] {
-        didSet {
-            print(" Home : \(oldValue.name) ----> \(myHome.name)")
-        }
-    }
+    static var myHome: Weather?// = allWeatherDataArray[4] {
     
     // 불러온 모든 도시들의 날씨 데이터
     private static var allWeatherDataArray: [Weather] = [
@@ -50,7 +46,7 @@ final class DataManager {
         Weather(iDnum: 25 ,name: "로마", description: .cloud, currentTemperature: "27°C", currentHumidity: "47 %", maxTemperature: "27°C", minTemperature: "15°C"),
     ]
     
-
+    
     
     
     func isMyLocationOn() -> Bool {
@@ -69,7 +65,7 @@ final class DataManager {
         setMyWeatherViewList()
         print(#function+"-------------------- Add DONE")
     }
-
+    
     //유저가 선택한 특정도시들의 날씨 추출
     func setMyWeatherViewList() {
         print(#function + "-------------------- Start")
@@ -80,12 +76,13 @@ final class DataManager {
         // 홈 지역을 맨 앞으로
         var myArr = DataManager.myWeatherViewList
         var index = 0
-        let home = DataManager.myHome
-        myArr.forEach{
-            if $0.name == home.name {
-                myArr.swapAt(0,index)
+        if let home = DataManager.myHome {
+            myArr.forEach{
+                if $0.name == home.name {
+                    myArr.swapAt(0,index)
+                }
+                index += 1
             }
-            index += 1
         }
         let temp = myArr.map{$0.name}
         print("myWeatherViewList: \(temp)")
@@ -94,13 +91,63 @@ final class DataManager {
         print(#function + "-------------------- DONE")
     }
     
-    // 유저의 선택 사항에 따라 도시 리스트 정렬 ⚠️
-//    func sortAllWeatherListById() {
-//        var orderedList: [Weather] = []
-//        var num = getAllWeatherList().count
-//        var myList: [Weather] = []
-//        myList = getAllWeatherList().filter{$0.isMyList}
-//    }
+    func getMySortedWeatherListView() -> [Weather]{
+        
+        let allList = getAllWeatherList()
+        // MyList를 최상단에 올리기 위해 먼저 분리해주기
+        var myList = allList.filter{$0.isMyList == true}
+        
+        // MyList안에 home을 등록해놨다면 home을 가장 위로올리기
+        if let home = DataManager.myHome {
+            var index = 0
+            myList.forEach{
+                if $0.name == home.name{
+                    myList.swapAt(0, index)
+                }else { index += 1 }
+            }
+        }
+        
+        // allList에서 MyList 항목들을 제거하기 ⚠️
+        let exceptedAllList = removeIntersection(except: myList, from: allList)
+        myList.append(contentsOf: exceptedAllList)
+        
+        return myList
+    }
+    
+    // 겹치는 배열을 제거해주는 함수
+    func removeIntersection(except arrA: [Weather], from arrB: [Weather]) -> [Weather] {
+        let shouldExceptName: [String] = arrA.map{$0.name}
+        var willExceptedArr = arrB
+        var index = 0
+        
+        willExceptedArr.forEach{
+            if shouldExceptName.contains($0.name) {
+                willExceptedArr.remove(at: index)
+            }else { index += 1 }
+        }
+        return willExceptedArr
+    }
+    
+    // WeatherData ID Number에 따라서 정렬
+    func sortById(notSortedArray: [Weather]) -> [Weather] {
+        
+        var index: Int
+        var array: [Weather] = notSortedArray
+        
+        for i in 0 ..< notSortedArray.count { //External Loop
+            var min: Int = array[i].iDnum
+            index = i
+            
+            for j in i + 1 ..< array.count { //Internal Loop
+                if (min > array[j].iDnum) {
+                    min =  array[j].iDnum
+                    index = j
+                }
+            }
+            array.swapAt(i, index)
+        }
+        return array
+    }
     
     func getMyWeatherViewList() -> [Weather] {
         return DataManager.myWeatherViewList
@@ -111,7 +158,7 @@ final class DataManager {
     }
     
     func getAllWeatherListName() -> [String] {
-        var str = getAllWeatherList().map{$0.name}
+        let str = getAllWeatherList().map{$0.name}
         return str
     }
 }

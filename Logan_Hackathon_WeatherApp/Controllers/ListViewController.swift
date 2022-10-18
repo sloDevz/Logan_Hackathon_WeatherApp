@@ -62,10 +62,10 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
         
         if searchText == "" {
             filteredName = nil
-            filteredData = vc.weatherDataManager.getAllWeatherList()
+            filteredData = vc.weatherDataManager.getMySortedWeatherListView()
         }
         else {
-            for weatherData in vc.weatherDataManager.getAllWeatherList() {
+            for weatherData in vc.weatherDataManager.getMySortedWeatherListView() {
                 if weatherData.name.hasPrefix(searchText) {
                     filteredData?.append(weatherData)
                 }
@@ -80,7 +80,7 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
         vc.weatherDataManager.setMyWeatherViewList()
-        filteredData = vc.weatherDataManager.getAllWeatherList()
+        filteredData = vc.weatherDataManager.getMySortedWeatherListView()
         filteredName = nil
         listTableView.reloadData()
         
@@ -123,7 +123,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         
         // filteredData의 데이터를 최신화하기 위함.
         var array: [Weather] = []
-        vc.weatherDataManager.getAllWeatherList().forEach{ data in
+        vc.weatherDataManager.getMySortedWeatherListView().forEach{ data in
             
             let result = filteredData?.filter{ $0.name == data.name}
             if let result { array.append(contentsOf: result) }
@@ -151,11 +151,13 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         let selectedItem = filteredData![indexPath.row]
         print("\(selectedItem.name) 선택됨")
         
-        if selectedItem.name == DataManager.myHome.name {
-            popOneButtonAlertUp(title: "집으로 설정된 지역입니다", message: "집은 홈 리스트에서 제거할 수 없어요, 홈 화면에서 집을 변경해주세요", buttonLetter: "알겠습니다")
-            return
+        if let myHomeName = DataManager.myHome?.name {
+            
+            if selectedItem.name == myHomeName {
+                popOneButtonAlertUp(title: "집으로 설정된 지역입니다", message: "집은 홈 리스트에서 제거할 수 없어요, 홈 화면에서 집을 변경해주세요", buttonLetter: "알겠습니다")
+                return
+            }
         }
-        
         tableView.beginUpdates()
         print("업데이트 시작")
         
@@ -170,7 +172,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         }else{
             vc.weatherDataManager.addMyWeatherViewList(index: pathIndex)
         }
-        filteredData = vc.weatherDataManager.getAllWeatherList()
+        filteredData = vc.weatherDataManager.getMySortedWeatherListView()
         tableView.reloadData()
         print("\n^^^^^^^^^^^^^^^^^^^^^^^^ Reload Data")
         tableView.endUpdates()

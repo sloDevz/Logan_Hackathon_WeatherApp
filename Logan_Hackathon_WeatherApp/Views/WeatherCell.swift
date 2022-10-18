@@ -27,7 +27,7 @@ class WeatherCell: UITableViewCell {
         // Initialization code
         
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setUI()
@@ -41,13 +41,14 @@ class WeatherCell: UITableViewCell {
         }else {
             selectButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
         }
-        
-        if myHome!.name == myName {
-           print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            homeButton.isHidden = false
-            homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
-        }else {
+        if let myHomeName = myHome?.name {
+            if myHomeName == myName {
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                homeButton.isHidden = false
+                homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
+            }else{homeButton.isHidden = true}
             
+        }else {
             homeButton.isHidden = true
         }
     }

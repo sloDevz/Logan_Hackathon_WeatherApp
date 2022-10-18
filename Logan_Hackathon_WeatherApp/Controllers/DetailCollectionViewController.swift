@@ -127,7 +127,20 @@ class DetailCollectionViewController: UIViewController {
         
         let currentPageItem = weatherDataManager.getMyWeatherViewList()[currentPageIndex]
         
-        if DataManager.myHome.iDnum != currentPageItem.iDnum {
+        guard let myHomeName = DataManager.myHome?.name else {
+            // myHome이 등록돼 있지 않은 상태라면.
+            DataManager.myHome = currentPageItem
+            weatherDataManager.setMyWeatherViewList()
+            showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
+            
+            weatherDataManager.setMyWeatherViewList()
+            detailCollectionView.reloadData()
+            
+            return
+        }
+        
+        // myHome이 있는 상황.
+        if myHomeName != currentPageItem.name {
             //            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
             DataManager.myHome = currentPageItem
             weatherDataManager.setMyWeatherViewList()
@@ -228,9 +241,13 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
         cell.minTemperatureLabel.text = myList[indexPath.item].minTemperature
         
         
-        
-        if myList[indexPath.row].name == DataManager.myHome.name {
-            cell.homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
+        // 유저가 마이홈을 등록했는지 확인후 cell 형성
+        if let myHomeName = DataManager.myHome?.name {
+            cell.homeButton.setImage(UIImage(systemName: "house"), for: .normal)
+            
+            if myList[indexPath.row].name == myHomeName {
+                cell.homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
+            }
         }else {
             cell.homeButton.setImage(UIImage(systemName: "house"), for: .normal)
         }

@@ -41,9 +41,10 @@ class WeatherCell: UITableViewCell {
         }else {
             selectButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
         }
+        
+        
         if let myHomeName = myHome?.name {
             if myHomeName == myName {
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 homeButton.isHidden = false
                 homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
             }else{homeButton.isHidden = true}

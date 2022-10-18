@@ -103,7 +103,7 @@ class DetailCollectionViewController: UIViewController {
             alert.addAction(no)
             self.present(alert, animated: true)
         } else {
-            showToast(message: "이미 위치정보를 사용중입니다.", font: UIFont.systemFont(ofSize: 15), width: 300, height: 40, boxColor: UIColor.red)
+            showToast(message: "이미 위치정보를 사용중입니다.", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 40, boxColor: UIColor.red)
         }
     }
     
@@ -120,8 +120,9 @@ class DetailCollectionViewController: UIViewController {
     }
     
     
-    @IBAction func likeButtonTapped(_ sender: UIButton) {
-        print("DC-VC-------------------------")
+    
+    @IBAction func homeButtonTapped(_ sender: UIButton) {
+    print("DC-VC-------------------------")
         print(#function)
         print("Myhome is: -------- \(DataManager.myHome)")
         
@@ -131,7 +132,7 @@ class DetailCollectionViewController: UIViewController {
             // myHome이 등록돼 있지 않은 상태라면.
             DataManager.myHome = currentPageItem
             weatherDataManager.setMyWeatherViewList()
-            showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
+            showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
             
             weatherDataManager.setMyWeatherViewList()
             detailCollectionView.reloadData()
@@ -144,9 +145,10 @@ class DetailCollectionViewController: UIViewController {
             //            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
             DataManager.myHome = currentPageItem
             weatherDataManager.setMyWeatherViewList()
-            showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
+            showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
         } else {
-            showToast(message: "이미 집으로 등록된 지역입니다.", font: UIFont.systemFont(ofSize: 14), width: 300, height: 35, boxColor: UIColor.blue)
+            DataManager.myHome = nil
+            showToast(message: "집 등록이 해제되었습니다.", font: UIFont.systemFont(ofSize: 17,weight: .heavy), width: 300, height: 35, boxColor: UIColor.blue)
         }
         
         
@@ -176,7 +178,7 @@ class DetailCollectionViewController: UIViewController {
     }
     
     
-    open func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat, boxColor: UIColor) {
+    func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat, boxColor: UIColor) {
         // 메세지창 위치지정
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.width/2 - width/2, y: self.view.frame.size.height-100, width: width, height: height))
         toastLabel.backgroundColor = boxColor.withAlphaComponent(0.6)
@@ -202,7 +204,7 @@ class DetailCollectionViewController: UIViewController {
         if segue.identifier == "toListVC" {
             let listVC = segue.destination as! ListViewController
             listVC.weatherDataManager = self.weatherDataManager
-            listVC.filteredData = weatherDataManager.getAllWeatherList()
+            listVC.filteredData = weatherDataManager.getMySortedWeatherListView()
         }
         if segue.identifier == "toConfigVC" {
             let configVC = segue.destination as! ConfigVC

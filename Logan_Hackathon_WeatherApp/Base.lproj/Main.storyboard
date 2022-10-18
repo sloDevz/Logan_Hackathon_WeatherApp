@@ -172,7 +172,7 @@
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="house" catalog="system" title=""/>
                                                     <connections>
-                                                        <action selector="likeButtonTapped:" destination="bdm-vp-naC" eventType="touchUpInside" id="Koc-ES-j7A"/>
+                                                        <action selector="homeButtonTapped:" destination="bdm-vp-naC" eventType="touchUpInside" id="l9N-3k-faZ"/>
                                                     </connections>
                                                 </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vSM-Pc-i0J">

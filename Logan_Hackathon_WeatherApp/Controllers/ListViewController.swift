@@ -164,13 +164,18 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         let pathIndex = selectedItem.iDnum
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+//        ⚠️여기서부터 토스트 알림 구현하기
         
         
         
         if selectedItem.isMyList == true && DataManager.myWeatherViewList.count == 1 {
             popOneButtonAlertUp(title: "지역을 선택해주세요.", message: "하나 이상의 지역을 선택해주세요", buttonLetter: "예")
+        }else if selectedItem.isMyList == true {
+            vc.weatherDataManager.addMyWeatherViewList(index: pathIndex)
+            showToast(message: "\(selectedItem.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
         }else{
             vc.weatherDataManager.addMyWeatherViewList(index: pathIndex)
+            showToast(message: "\(selectedItem.name) 선택완료", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
         }
         filteredData = vc.weatherDataManager.getMySortedWeatherListView()
         tableView.reloadData()
@@ -180,7 +185,24 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     
-    
+    func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat, boxColor: UIColor) {
+        // 메세지창 위치지정
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.width/2 - width/2, y: self.view.frame.size.height-100, width: width, height: height))
+        toastLabel.backgroundColor = boxColor.withAlphaComponent(1.0)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 1.3, delay: 1.3, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
     
     
     func popOneButtonAlertUp(title: String, message: String, buttonLetter: String) {
@@ -190,6 +212,9 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         alert.addAction(yes)
         self.present(alert, animated: true)
     }
+    
+    
+    
     
     
     //스와이프해서 삭제 (일단 패스)

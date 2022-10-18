@@ -13,8 +13,8 @@ final class DataManager {
     
     // 처음엔 비어있음
     static var myWeatherViewList: [Weather] = []
-    // 초기값은 전주
-    static var myHome: Weather?// = allWeatherDataArray[4] {
+    // 초기값은 전주로 했었음.
+    static var myHome: Weather?
     
     // 불러온 모든 도시들의 날씨 데이터
     private static var allWeatherDataArray: [Weather] = [
@@ -134,11 +134,11 @@ final class DataManager {
         var index: Int
         var array: [Weather] = notSortedArray
         
-        for i in 0 ..< notSortedArray.count { //External Loop
+        for i in 0 ..< notSortedArray.count {
             var min: Int = array[i].iDnum
             index = i
             
-            for j in i + 1 ..< array.count { //Internal Loop
+            for j in i + 1 ..< array.count {
                 if (min > array[j].iDnum) {
                     min =  array[j].iDnum
                     index = j

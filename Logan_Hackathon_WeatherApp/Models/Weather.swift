@@ -20,7 +20,7 @@ struct Weather {
     // 리스트에 넣었냐 안넣었냐 판별해주는 용도
     var isMyList: Bool = false
     
-    let iDnum: Int?
+    let iDnum: Int
     var isDay: Bool = false
     var name: String
     var icon: UIImage {

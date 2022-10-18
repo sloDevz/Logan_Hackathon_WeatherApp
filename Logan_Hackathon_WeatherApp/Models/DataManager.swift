@@ -50,6 +50,9 @@ final class DataManager {
         Weather(iDnum: 25 ,name: "로마", description: .cloud, currentTemperature: "27°C", currentHumidity: "47 %", maxTemperature: "27°C", minTemperature: "15°C"),
     ]
     
+
+    
+    
     func isMyLocationOn() -> Bool {
         return DataManager.usingLocation
     }
@@ -60,16 +63,16 @@ final class DataManager {
     
     // 초기 화면에 표시될 지역 리스트에 넣기.
     func addMyWeatherViewList(index:Int) {
-        print(#function)
+        print(#function+"-------------------- Add Start")
         DataManager.allWeatherDataArray[index].isMyList.toggle()
+        print("추가됨 -----------> \(DataManager.allWeatherDataArray[index].name)")
         setMyWeatherViewList()
+        print(#function+"-------------------- Add DONE")
     }
-    
- 
-    
+
     //유저가 선택한 특정도시들의 날씨 추출
     func setMyWeatherViewList() {
-        print(#function)
+        print(#function + "-------------------- Start")
         
         // 초기화면에 출력될 지역들 선별
         DataManager.myWeatherViewList = DataManager.allWeatherDataArray.filter{ $0.isMyList }
@@ -81,12 +84,23 @@ final class DataManager {
         myArr.forEach{
             if $0.name == home.name {
                 myArr.swapAt(0,index)
-                print(myArr)
             }
             index += 1
         }
+        let temp = myArr.map{$0.name}
+        print("myWeatherViewList: \(temp)")
         DataManager.myWeatherViewList = myArr
+        
+        print(#function + "-------------------- DONE")
     }
+    
+    // 유저의 선택 사항에 따라 도시 리스트 정렬 ⚠️
+//    func sortAllWeatherListById() {
+//        var orderedList: [Weather] = []
+//        var num = getAllWeatherList().count
+//        var myList: [Weather] = []
+//        myList = getAllWeatherList().filter{$0.isMyList}
+//    }
     
     func getMyWeatherViewList() -> [Weather] {
         return DataManager.myWeatherViewList
@@ -94,5 +108,10 @@ final class DataManager {
     
     func getAllWeatherList() -> [Weather] {
         return DataManager.allWeatherDataArray
+    }
+    
+    func getAllWeatherListName() -> [String] {
+        var str = getAllWeatherList().map{$0.name}
+        return str
     }
 }

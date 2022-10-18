@@ -19,7 +19,8 @@ class WeatherCell: UITableViewCell {
     
     @IBOutlet weak var selectButton: UIButton!
     
-    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var homeButton: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,28 +43,12 @@ class WeatherCell: UITableViewCell {
         }
         
         if myHome!.name == myName {
-//            print("############################ myHomeID: \(myHome) // myID: \(myId)")
-            likeButton.isHidden = false
-            likeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
+           print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            homeButton.isHidden = false
+            homeButton.setImage(UIImage(systemName: "house.fill"), for: .normal)
         }else {
-//            print("myHomeID: \(myHome) \n myID: \(myId)")
-            likeButton.isHidden = true
+            
+            homeButton.isHidden = true
         }
-        
-        
-        
     }
-
-    
-    @IBAction func likeButtonTapped(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func selectButtonTapped(_ sender: UIButton) {
-//        print("selectButton Tapped: \(regionNameLabel.text!)")
-        
-    }
-    
-    
-    
 }

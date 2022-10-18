@@ -484,9 +484,6 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="checkmark.circle" catalog="system" title=""/>
-                                                    <connections>
-                                                        <action selector="selectButtonTapped:" destination="NYP-z0-Rz2" eventType="touchUpInside" id="fQk-dy-Ne8"/>
-                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1kV-cD-Mtg">
                                                     <rect key="frame" x="347" y="21.666666666666671" width="25" height="25"/>
@@ -496,9 +493,6 @@
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="house" catalog="system" title=""/>
-                                                    <connections>
-                                                        <action selector="likeButtonTapped:" destination="NYP-z0-Rz2" eventType="touchUpInside" id="2n8-BI-y8P"/>
-                                                    </connections>
                                                 </button>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun.min" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nJT-RF-FZZ">
                                                     <rect key="frame" x="20" y="9.9999999999999964" width="50" height="48.333333333333329"/>
@@ -520,7 +514,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="likeButton" destination="1kV-cD-Mtg" id="gL9-8q-4Kr"/>
+                                            <outlet property="homeButton" destination="1kV-cD-Mtg" id="VTO-yp-9PZ"/>
                                             <outlet property="regionNameLabel" destination="K5U-sy-Dzd" id="fmN-tr-nuw"/>
                                             <outlet property="selectButton" destination="e7x-qZ-JQN" id="e16-bq-aqW"/>
                                             <outlet property="weatherIcon" destination="nJT-RF-FZZ" id="QAi-Qj-7Qw"/>

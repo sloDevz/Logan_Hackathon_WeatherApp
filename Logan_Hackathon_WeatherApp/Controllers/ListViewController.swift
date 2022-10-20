@@ -18,7 +18,7 @@ class ListViewController: UIViewController {
     
     let searchController = UISearchController()
     
-    var weatherDataManager: DataManager?
+//    var weatherDataManager: DataManager?
     
     var filteredData: [Weather]?
     var filteredName: [String]?
@@ -79,6 +79,7 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
+        
         vc.weatherDataManager.setMyWeatherViewList()
         filteredData = vc.weatherDataManager.getMySortedWeatherListView()
         filteredName = nil
@@ -94,11 +95,11 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(#function + " START ")
         if filteredName?.isEmpty == nil{
-            print(filteredData!.count) // ⚠️ fatal Error Point : 전체 배열 다들어가있음...!!
-            print(#function + " DONE ")
+            print(filteredData!.count)
+            print(#function + " filtered Data will do ")
             return filteredData!.count
         } else {
-            print(#function + " DONE ")
+            print(#function + " filtered Name will do ")
             return filteredName!.count
         }
         
@@ -164,17 +165,14 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         let pathIndex = selectedItem.iDnum
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
-//        ⚠️여기서부터 토스트 알림 구현하기
-        
-        
-        
+       
         if selectedItem.isMyList == true && DataManager.myWeatherViewList.count == 1 {
             popOneButtonAlertUp(title: "지역을 선택해주세요.", message: "하나 이상의 지역을 선택해주세요", buttonLetter: "예")
         }else if selectedItem.isMyList == true {
-            vc.weatherDataManager.addMyWeatherViewList(index: pathIndex)
+            vc.weatherDataManager.toggleWeatherToViewList(name: selectedItem.name)
             showToast(message: "\(selectedItem.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
         }else{
-            vc.weatherDataManager.addMyWeatherViewList(index: pathIndex)
+            vc.weatherDataManager.toggleWeatherToViewList(name: selectedItem.name)
             showToast(message: "\(selectedItem.name) 선택완료", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
         }
         filteredData = vc.weatherDataManager.getMySortedWeatherListView()
@@ -218,18 +216,54 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     
     
     //스와이프해서 삭제 (일단 패스)
-    //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    //
-    //          if editingStyle == .delete {
-    //
-    //              dataArray.remove(at: indexPath.row)
-    //              tableView.deleteRows(at: [indexPath], with: .fade)
-    //
-    //          } else if editingStyle == .insert {
-    //
-    //          }
-    //      }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let sellectedItem = filteredData![indexPath.row]
+        let index = navigationController!.viewControllers.count - 2
+        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+        
+        if editingStyle == .delete {
+            let shouldDeletedName = filteredData![indexPath.row].name
+            
+            // myHome이 있을경우
+            if let myHomeName = vc.weatherDataManager.getNames(iWannaGet: .myHome){
+                print("myHome 있는 분기")
+                if !myHomeName.contains(shouldDeletedName){
+                    
+                    vc.weatherDataManager.removeWeatherDataArray(name: sellectedItem.name)
+                    filteredData!.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    print("\(shouldDeletedName) 제거")
+                }else{
+                    popOneButtonAlertUp(title: "", message: "집은 리스트에서 제거할 수 없습니다.", buttonLetter: "확인")
+                    return
+                }
+            }
+            // myHome이 없을경우
+            else {
+                print("myHome 없는 분기")
+                // 제거하려는 항목이 내 리스트에 들어가있지 않다면
+                if !vc.weatherDataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
+                    vc.weatherDataManager.removeWeatherDataArray(name: sellectedItem.name)
+                    filteredData!.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    print("\(shouldDeletedName) 제거")
+                    print("제거후 데이터 갯수 \(filteredData?.count)")
+                    print("제거후 VC 데이터 갯수 \(vc.weatherDataManager.getAllWeatherList().count)")
+                } else {
+                    popOneButtonAlertUp(title: "", message: "즐겨찾기중인 지역은 삭제할 수 없습니다", buttonLetter: "확인")
+                    return
+                }
+            }
+
+            
+
+        } else if editingStyle == .insert {
+
+        }
+    }
     
+       
 }
 
 

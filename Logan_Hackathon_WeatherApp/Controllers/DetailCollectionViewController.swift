@@ -31,7 +31,7 @@ class DetailCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
-        setupCollectionView()
+        
         
     }
     
@@ -58,7 +58,7 @@ class DetailCollectionViewController: UIViewController {
     
     func setUI(){
         
-        
+        setupCollectionView()
         weatherDataManager.setMyWeatherViewList()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
@@ -203,7 +203,6 @@ class DetailCollectionViewController: UIViewController {
         //print(#function)
         if segue.identifier == "toListVC" {
             let listVC = segue.destination as! ListViewController
-            listVC.weatherDataManager = self.weatherDataManager
             listVC.filteredData = weatherDataManager.getMySortedWeatherListView()
         }
         if segue.identifier == "toConfigVC" {
@@ -271,7 +270,9 @@ extension DetailCollectionViewController : CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse: // 허용
             weatherDataManager.toggleMyLocationPermission()
             print("사용자: 위치 허용")
+            weatherDataManager.toggleWeatherToViewList(name: weatherDataManager.getAllWeatherList().randomElement()!.name)
             self.locationManager.startUpdatingLocation()
+            detailCollectionView.reloadData()
             
         case .denied: //허용거부
             self.performSegue(withIdentifier: "toListVC", sender: self)

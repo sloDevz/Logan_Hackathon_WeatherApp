@@ -18,10 +18,9 @@ class ListViewController: UIViewController {
     
     let searchController = UISearchController()
     
-//    var weatherDataManager: DataManager?
-    
     var filteredData: [Weather]?
     var filteredName: [String]?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +98,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
             print(#function + " filtered Data will do ")
             return filteredData!.count
         } else {
+            print(filteredName!.count)
             print(#function + " filtered Name will do ")
             return filteredName!.count
         }
@@ -109,6 +109,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print(#function)
         
+        // filteredName이 Nil이 아닐때 그안의 이름들에 해당하는 데이터를 filteredData에 넣어주기
         if let filteredNames = filteredName {
             var temp : [Weather] = []
             temp = filteredData!.filter{
@@ -116,7 +117,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
             }
             filteredData = temp
         }
-        // dequeueReusableCell의 리턴값이 UITableViewCell 이기 때문에 MovieCell 타입으로 다시 캐스팅 해줘야함.
+        // dequeueReusableCell의 리턴값이 UITableViewCell 이기 때문에 WeatherCell 타입으로 다시 캐스팅 해줘야함.
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
         
         let index = navigationController!.viewControllers.count - 2  // 바로 전 화면 인덱스
@@ -162,7 +163,6 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         tableView.beginUpdates()
         print("업데이트 시작")
         
-        let pathIndex = selectedItem.iDnum
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
        
@@ -212,10 +212,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     
-    
-    
-    
-    //스와이프해서 삭제 (일단 패스)
+    //스와이프해서 삭제
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         let sellectedItem = filteredData![indexPath.row]
@@ -228,14 +225,16 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
             // myHome이 있을경우
             if let myHomeName = vc.weatherDataManager.getNames(iWannaGet: .myHome){
                 print("myHome 있는 분기")
-                if !myHomeName.contains(shouldDeletedName){
-                    
+                if !myHomeName.contains(shouldDeletedName) && !vc.weatherDataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
                     vc.weatherDataManager.removeWeatherDataArray(name: sellectedItem.name)
                     filteredData!.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                     print("\(shouldDeletedName) 제거")
-                }else{
-                    popOneButtonAlertUp(title: "", message: "집은 리스트에서 제거할 수 없습니다.", buttonLetter: "확인")
+                }else if vc.weatherDataManager.getNames(iWannaGet: .myHome)!.contains(shouldDeletedName){
+                    popOneButtonAlertUp(title: "", message: "집은 리스트에서 제거할 수 없습니다", buttonLetter: "확인")
+                }
+                else{
+                    popOneButtonAlertUp(title: "", message: "즐겨찾기중인 지역은 삭제할 수 없습니다", buttonLetter: "확인")
                     return
                 }
             }
@@ -246,6 +245,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
                 if !vc.weatherDataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
                     vc.weatherDataManager.removeWeatherDataArray(name: sellectedItem.name)
                     filteredData!.remove(at: indexPath.row)
+                    filteredName!.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                     print("\(shouldDeletedName) 제거")
                     print("제거후 데이터 갯수 \(filteredData?.count)")
@@ -257,9 +257,9 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
             }
 
             
-
+            // 리스트 추가기능 구현하기
         } else if editingStyle == .insert {
-
+//            tableView.insertRows(at: indexPath, with: .top)
         }
     }
     

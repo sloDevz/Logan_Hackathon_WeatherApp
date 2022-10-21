@@ -58,11 +58,13 @@ class DetailCollectionViewController: UIViewController {
     
     func setUI(){
         
-        setupCollectionView()
-        weatherDataManager.setMyWeatherViewList()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
+        
+        setupCollectionView()
+        weatherDataManager.setMyWeatherViewList()
+        
     }
     
     

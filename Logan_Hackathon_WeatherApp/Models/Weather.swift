@@ -9,19 +9,22 @@ import UIKit
 
 struct Weather {
     
-    enum WeatherDescription:String {
-        case clear = "맑음"
-        case cloud = "구름낌"
-        case fog = "안개"
-        case rain = "비"
-        case snow = "눈"
-    }
+    
     
     // 리스트에 넣었냐 안넣었냐 판별해주는 용도
     var isMyList: Bool = false {
         didSet {
             print("\(self.name):: isMyList :: \(oldValue) -----> \(isMyList)")
         }
+    }
+    
+    
+    enum WeatherDescription:String {
+        case clear = "맑음"
+        case cloud = "구름낌"
+        case fog = "안개"
+        case rain = "비"
+        case snow = "눈"
     }
     
     let iDnum: Int

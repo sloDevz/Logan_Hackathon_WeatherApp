@@ -68,7 +68,7 @@ final class DataManager {
     
     // 데이터를 초기 베이스 데이터 상태로 리셋
     func reSetAllWeatherDataArray() {
-        DataManager.allWeatherDataArray =  dataBase.getDataFromBase()
+        DataManager.allWeatherDataArray =  dataBase.getAllDataFromBase()
     }
     
     // 이름기준 데이터 지우기

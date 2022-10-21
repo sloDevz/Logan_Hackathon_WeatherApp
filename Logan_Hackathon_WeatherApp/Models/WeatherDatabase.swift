@@ -38,9 +38,17 @@ final class WeatherDatabase {
         Weather(iDnum: 25 ,name: "로마", description: .cloud, currentTemperature: "27°C", currentHumidity: "47 %", maxTemperature: "27°C", minTemperature: "15°C")
     ]
     
-    func getDataFromBase() -> [Weather] {
+    func getAllDataFromBase() -> [Weather] {
         return WeatherDatabase.allDataArray
     }
+    
+    func getAWeatherData(name:String) -> [Weather] {
+        
+        var data = getAllDataFromBase().filter{$0.name == name}
+        return data
+    }
+    
+    
     
 }
 

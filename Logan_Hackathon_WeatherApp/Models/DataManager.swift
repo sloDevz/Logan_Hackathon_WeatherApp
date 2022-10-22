@@ -31,7 +31,7 @@ final class DataManager {
         Weather(iDnum: 1 ,name: "대전", description: .rain, currentTemperature: "11°C", currentHumidity: "70 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 2 ,name: "대구", description: .snow, currentTemperature: "13°C", currentHumidity: "68 %", maxTemperature: "29°C", minTemperature: "22°C"),
         Weather(iDnum: 3 ,name: "부산", description: .clear, currentTemperature: "14°C", currentHumidity: "71 %", maxTemperature: "29°C", minTemperature: "22°C"),
-        Weather(isMyList: false,iDnum: 4 ,isDay: false, name: "전주", description: .rain, currentTemperature: "12°C", currentHumidity: "79 %", maxTemperature: "20°C", minTemperature: "5°C"),
+        Weather(iDnum: 4 , name: "전주", description: .rain, currentTemperature: "12°C", currentHumidity: "79 %", maxTemperature: "20°C", minTemperature: "5°C"),
 //        Weather(iDnum: 5 ,name: "일산", description: .clear, currentTemperature: "11°C", currentHumidity: "77 %", maxTemperature: "29°C", minTemperature: "7°C"),
 //        Weather(iDnum: 6 ,name: "평택", description: .fog, currentTemperature: "12°C", currentHumidity: "69 %", maxTemperature: "29°C", minTemperature: "6°C"),
 //        Weather(iDnum: 7 ,name: "과천", description: .cloud, currentTemperature: "9°C", currentHumidity: "73 %", maxTemperature: "19°C", minTemperature: "5°C"),
@@ -72,22 +72,22 @@ final class DataManager {
     }
     
     // 이름기준 데이터 지우기
-    func removeWeatherDataArray(name: String){
-        print(#function + "\(name) 삭제")
-        var dataArray = DataManager.allWeatherDataArray
-        var index = 0
-        
-        dataArray.forEach{
-            if $0.name == name{
-                dataArray.remove(at: index)
-            }else{
-                index += 1
-            }
-            DataManager.allWeatherDataArray = dataArray
-        }
-    }
+//    func removeWeatherDataArray(name: String){
+//        print(#function + "\(name) 삭제")
+//        var dataArray = DataManager.allWeatherDataArray
+//        var index = 0
+//
+//        dataArray.forEach{
+//            if $0.name == name{
+//                dataArray.remove(at: index)
+//            }else{
+//                index += 1
+//            }
+//            DataManager.allWeatherDataArray = dataArray
+//        }
+//    }
     
-    // 초기 화면에 표시될 지역 리스트에 넣기 or 빼기.
+    // DetailViewList에 표시될 지역 리스트에 넣기 or 빼기.
     func toggleWeatherToViewList(name:String) {
         print(#function+"-------------------- Add Start")
         print("리스트 배열 수 \(getAllWeatherList().count)")
@@ -95,7 +95,7 @@ final class DataManager {
         var index = 0
         getAllWeatherList().forEach{
             if $0.name == name {
-                DataManager.allWeatherDataArray[index].isMyList.toggle()
+                DataManager.allWeatherDataArray[index].isMyCity.toggle()
                 
             }else { index += 1 }
         }
@@ -111,7 +111,7 @@ final class DataManager {
         print(#function + "-------------------- Start")
         
         // 초기화면에 출력될 지역들 선별
-        DataManager.myWeatherViewList = DataManager.allWeatherDataArray.filter{ $0.isMyList }
+        DataManager.myWeatherViewList = DataManager.allWeatherDataArray.filter{ $0.isMyCity }
         
         // 홈 지역을 맨 앞으로
         var myArr = DataManager.myWeatherViewList
@@ -131,11 +131,11 @@ final class DataManager {
         print(#function + "-------------------- DONE")
     }
     
-    func getMySortedWeatherListView() -> [Weather]{
+    func getAllMySortedWeatherListView() -> [Weather]{
         
         let allList = getAllWeatherList()
         // MyList를 최상단에 올리기 위해 먼저 분리해주기
-        var myList = allList.filter{$0.isMyList == true}
+        var myList = allList.filter{$0.isMyCity == true}
         
         // MyList안에 home을 등록해놨다면 home을 가장 위로올리기
         if let home = DataManager.myHome {
@@ -205,12 +205,33 @@ final class DataManager {
         }
     }
     
+    /** filter배열에 들어있는 이름기준으로 필터링 하여 반환한다.*/
+    func getFilteredData(filter namesArr:[String]) -> [Weather]{
+        
+        var filteredData: [Weather] = []
+        getAllMySortedWeatherListView().forEach{
+            if namesArr.contains($0.name){
+                filteredData.append($0)
+            }
+        }
+        return filteredData
+    }
+    
+    func getMyHome() -> Weather? {
+        guard let home = DataManager.myHome else { return nil }
+        return home
+    }
+    
+    func setMyHome(myHome: Weather?){
+        guard let home = myHome else { DataManager.myHome = nil; return }
+        DataManager.myHome = home
+    }
     
     func getMyWeatherViewList() -> [Weather] {
         return DataManager.myWeatherViewList
     }
     
-    func getAllWeatherList() -> [Weather] {
+    private func getAllWeatherList() -> [Weather] {
         return DataManager.allWeatherDataArray
     }
 }

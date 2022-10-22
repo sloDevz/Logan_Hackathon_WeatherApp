@@ -12,9 +12,9 @@ struct Weather {
     
     
     // 리스트에 넣었냐 안넣었냐 판별해주는 용도
-    var isMyList: Bool = false {
+    var isMyCity: Bool = false {
         didSet {
-            print("\(self.name):: isMyList :: \(oldValue) -----> \(isMyList)")
+            print("\(self.name):: isMyList :: \(oldValue) -----> \(isMyCity)")
         }
     }
     
@@ -52,7 +52,5 @@ struct Weather {
     var maxTemperature: String
     var minTemperature: String
     
-    mutating func toggleMyList(){
-        self.isMyList.toggle()
-    }
+    
 }

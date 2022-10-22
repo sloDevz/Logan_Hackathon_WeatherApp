@@ -12,7 +12,7 @@ class ConfigVC: UIViewController {
     
     @IBOutlet weak var myLocationToggle: UIButton!
     
-    let weatherDataManager = DataManager()
+    let dataManager = DataManager()
 
     override func viewDidLoad() {
         
@@ -23,11 +23,8 @@ class ConfigVC: UIViewController {
     
     func setupUI() {
         
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "지역 찾기"
-        self.navigationItem.titleView = searchBar
         myLocationToggle.setTitle("", for: .normal)
-        let isOn = weatherDataManager.isMyLocationOn()
+        let isOn = dataManager.isMyLocationOn()
         if  isOn {
             myLocationToggle.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
         }else {
@@ -43,9 +40,7 @@ class ConfigVC: UIViewController {
         
         let alert = UIAlertController(title: "📌", message: "개발자 정보\n\n이름: Logan (서동욱) \nE-mail: onec555@gmail.com", preferredStyle: .alert)
 
-        let sucess = UIAlertAction(title: "확인", style: .default) { action in
-        print("확인버튼 눌렸습니다.")
-        }
+        let sucess = UIAlertAction(title: "확인", style: .default)
 
         alert.addAction(sucess)
 

@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--내 도시-->
         <scene sceneID="rqH-Cq-Q9Y">
             <objects>
                 <viewController id="bdm-vp-naC" customClass="DetailCollectionViewController" customModule="Logan_Hackathon_WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -270,7 +270,7 @@
                             <constraint firstItem="7QF-tX-8EA" firstAttribute="leading" secondItem="mOP-vv-B7x" secondAttribute="leading" id="s3q-qf-hIe"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="0Kg-oG-JFM"/>
+                    <navigationItem key="navigationItem" title="내 도시" id="0Kg-oG-JFM"/>
                     <connections>
                         <outlet property="detailCollectionView" destination="7QF-tX-8EA" id="0xE-ME-5N1"/>
                         <segue destination="s5I-IC-9Lt" kind="show" identifier="toListVC" id="gXd-Yk-3t0"/>
@@ -460,7 +460,7 @@
             </objects>
             <point key="canvasLocation" x="2423.0769230769229" y="-2.1327014218009479"/>
         </scene>
-        <!--List-->
+        <!--즐겨찾기-->
         <scene sceneID="CYb-Ko-hIU">
             <objects>
                 <viewController id="s5I-IC-9Lt" customClass="ListViewController" customModule="Logan_Hackathon_WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -541,7 +541,7 @@
                             <constraint firstItem="Xp7-27-tBH" firstAttribute="bottom" secondItem="2MI-4j-BmO" secondAttribute="bottom" id="N8k-AE-aKl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="List" id="I9y-lg-B7b"/>
+                    <navigationItem key="navigationItem" title="즐겨찾기" id="I9y-lg-B7b"/>
                     <connections>
                         <outlet property="listTableView" destination="2MI-4j-BmO" id="gvK-bW-81g"/>
                     </connections>

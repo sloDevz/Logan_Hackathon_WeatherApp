@@ -18,20 +18,22 @@ class ListViewController: UIViewController {
     
     let searchController = UISearchController()
     
-    var filteredData: [Weather]?
-    var filteredName: [String]?
+    // 직접적으로 유저에게 보여질 데이터, 상호작용할 데이터 묶음
+    var shownData: [Weather]?
+    
+    // filteredData에 들어갈 WeatherData를 선별할 filter
+    var filterNames: [String]?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUp()
         
     }
     
     func setUp() {
-        
         navigationItem.searchController = searchController
+        navigationItem.searchController?.searchBar.placeholder = "지역찾기"
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         
@@ -52,24 +54,19 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        filteredData = []
-        
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
-        vc.weatherDataManager.setMyWeatherViewList()
+        
+        filterNames = []
+        
+        
+        vc.dataManager.setMyWeatherViewList()
         
         if searchText == "" {
-            filteredName = nil
-            filteredData = vc.weatherDataManager.getMySortedWeatherListView()
+            filterNames = vc.myList
         }
         else {
-            for weatherData in vc.weatherDataManager.getMySortedWeatherListView() {
-                if weatherData.name.hasPrefix(searchText) {
-                    filteredData?.append(weatherData)
-                }
-            }
-            filteredName = filteredData!.map{ $0.name }
+            filterNames = vc.dataManager.getAllMySortedWeatherListView().map{$0.name}.filter { $0.hasPrefix(searchText) }
         }
         self.listTableView.reloadData()
     }
@@ -78,12 +75,9 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
-        
-        vc.weatherDataManager.setMyWeatherViewList()
-        filteredData = vc.weatherDataManager.getMySortedWeatherListView()
-        filteredName = nil
+        vc.dataManager.setMyWeatherViewList()
+        filterNames = vc.myList
         listTableView.reloadData()
-        
     }
     
 }
@@ -92,51 +86,46 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     
     //컨텐츠 몇개?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(#function + " START ")
-        if filteredName?.isEmpty == nil{
-            print(filteredData!.count)
-            print(#function + " filtered Data will do ")
-            return filteredData!.count
-        } else {
-            print(filteredName!.count)
-            print(#function + " filtered Name will do ")
-            return filteredName!.count
-        }
+        let index = navigationController!.viewControllers.count - 2  // 바로 전 화면 인덱스
+        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+        
+        shownData = vc.dataManager.getFilteredData(filter: filterNames!)
+        print(#function + "\(filterNames!)")
+        
+        return shownData!.count
         
     }
     
     // 셀 표현
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print(#function)
+        let index = navigationController!.viewControllers.count - 2  // 바로 전 화면 인덱스
+        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
-        // filteredName이 Nil이 아닐때 그안의 이름들에 해당하는 데이터를 filteredData에 넣어주기
-        if let filteredNames = filteredName {
-            var temp : [Weather] = []
-            temp = filteredData!.filter{
-                filteredNames.contains($0.name)
-            }
-            filteredData = temp
+        // filteredName이 Nil이 아닐때 그안의 이름들에 해당하는 데이터를 shownData에 넣어주기
+        if let filteredNames = filterNames {
+            shownData = vc.dataManager.getFilteredData(filter: filteredNames)
         }
         // dequeueReusableCell의 리턴값이 UITableViewCell 이기 때문에 WeatherCell 타입으로 다시 캐스팅 해줘야함.
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
         
-        let index = navigationController!.viewControllers.count - 2  // 바로 전 화면 인덱스
-        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+        
         
         // filteredData의 데이터를 최신화하기 위함.
-        var array: [Weather] = []
-        vc.weatherDataManager.getMySortedWeatherListView().forEach{ data in
-            
-            let result = filteredData?.filter{ $0.name == data.name}
-            if let result { array.append(contentsOf: result) }
-        }
+        //        var array: [Weather] = []
+        //        vc.dataManager.getAllMySortedWeatherListView().forEach{ data in
+        //
+        //            let result = shownData?.filter{ $0.name == data.name}
+        //            if let result { array.append(contentsOf: result) }
+        //        }
+        print("myList ::",vc.myList)
         
+        let weather = shownData![indexPath.row] //이걸로 코드 줄여도 됨
         
-        let weather = array[indexPath.row] //이걸로 코드 줄여도 됨
-        
-        cell.myHome = DataManager.myHome
+        cell.myHome = vc.dataManager.getMyHome()
         cell.myName = weather.name
-        cell.isMyList = weather.isMyList
+        cell.isMyCity = weather.isMyCity
+        cell.myList = vc.myList
         cell.regionNameLabel.text = weather.name
         cell.weatherIcon.image = weather.icon
         cell.selectionStyle = .none
@@ -147,41 +136,43 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     
     // 셀이 선택됐을때에 대한 반응
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // 세그웨이를 사용할땐 항상 사용. ( sender는 정보전달 )
-        print("\n" + #function + "----------------------------------------")
-        
-        let selectedItem = filteredData![indexPath.row]
-        print("\(selectedItem.name) 선택됨")
-        
-        if let myHomeName = DataManager.myHome?.name {
-            
-            if selectedItem.name == myHomeName {
-                popOneButtonAlertUp(title: "집으로 설정된 지역입니다", message: "집은 홈 리스트에서 제거할 수 없어요, 홈 화면에서 집을 변경해주세요", buttonLetter: "알겠습니다")
-                return
-            }
-        }
-        tableView.beginUpdates()
-        print("업데이트 시작")
-        
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
-       
-        if selectedItem.isMyList == true && DataManager.myWeatherViewList.count == 1 {
-            popOneButtonAlertUp(title: "지역을 선택해주세요.", message: "하나 이상의 지역을 선택해주세요", buttonLetter: "예")
-        }else if selectedItem.isMyList == true {
-            vc.weatherDataManager.toggleWeatherToViewList(name: selectedItem.name)
-            showToast(message: "\(selectedItem.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
-        }else{
-            vc.weatherDataManager.toggleWeatherToViewList(name: selectedItem.name)
-            showToast(message: "\(selectedItem.name) 선택완료", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
-        }
-        filteredData = vc.weatherDataManager.getMySortedWeatherListView()
-        tableView.reloadData()
-        print("\n^^^^^^^^^^^^^^^^^^^^^^^^ Reload Data")
-        tableView.endUpdates()
-        print("\(selectedItem.name)[\(selectedItem.iDnum)] 선택 업데이트 완료")
+        
+        let selectedItem = shownData![indexPath.row]
+        print("\(selectedItem.name) 선택됨")
+        
+        
+        if vc.myList.contains(selectedItem.name){
+            
+            if let myHomeName = vc.dataManager.getMyHome()?.name {
+                
+                if selectedItem.name == myHomeName {
+                    popOneButtonAlertUp(title: "집으로 설정된 지역입니다", message: "집은 즐겨찾기에서 제거할 수 없어요, 홈 화면에서 집을 변경해주세요", buttonLetter: "알겠습니다")
+                    return
+                }
+            }
+            tableView.beginUpdates()
+            print("업데이트 시작")
+            
+            if selectedItem.isMyCity == true && vc.dataManager.getMyWeatherViewList().count == 1 {
+                popOneButtonAlertUp(title: "지역을 선택해주세요.", message: "하나 이상의 지역을 선택해주세요", buttonLetter: "예")
+            }else if selectedItem.isMyCity == true {
+                vc.dataManager.toggleWeatherToViewList(name: selectedItem.name)
+                
+                showToast(message: "\(selectedItem.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
+            }else{
+                vc.dataManager.toggleWeatherToViewList(name: selectedItem.name)
+                
+                showToast(message: "\(selectedItem.name) 선택완료", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
+            }
+            shownData = vc.dataManager.getFilteredData(filter: filterNames!)
+            tableView.reloadData()
+            print("\n^^^^^^^^^^^^^^^^^^^^^^^^ Reload Data")
+            tableView.endUpdates()
+            print("\(selectedItem.name)[\(selectedItem.iDnum)] 선택 업데이트 완료")
+        }else { print("목록에 없는 데이터입니다"); return }
     }
-    
     
     func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat, boxColor: UIColor) {
         // 메세지창 위치지정
@@ -215,55 +206,64 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     //스와이프해서 삭제
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        let sellectedItem = filteredData![indexPath.row]
+        let sellectedItem = shownData![indexPath.row]
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
-        if editingStyle == .delete {
-            let shouldDeletedName = filteredData![indexPath.row].name
-            
-            // myHome이 있을경우
-            if let myHomeName = vc.weatherDataManager.getNames(iWannaGet: .myHome){
-                print("myHome 있는 분기")
-                if !myHomeName.contains(shouldDeletedName) && !vc.weatherDataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
-                    vc.weatherDataManager.removeWeatherDataArray(name: sellectedItem.name)
-                    filteredData!.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    print("\(shouldDeletedName) 제거")
-                }else if vc.weatherDataManager.getNames(iWannaGet: .myHome)!.contains(shouldDeletedName){
-                    popOneButtonAlertUp(title: "", message: "집은 리스트에서 제거할 수 없습니다", buttonLetter: "확인")
+        if vc.myList.contains(sellectedItem.name){
+            if editingStyle == .delete {
+                let shouldDeletedName = shownData![indexPath.row].name
+                
+                // myHome이 있을경우
+                if let myHomeName = vc.dataManager.getNames(iWannaGet: .myHome){
+                    print("myHome 있는 분기")
+                    if !myHomeName.contains(shouldDeletedName) && !vc.dataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
+                        
+                        //                    vc.dataManager.removeWeatherDataArray(name: sellectedItem.name)
+                        
+                        filterNames = filterNames!.filter{$0 != sellectedItem.name}
+                        vc.myList = filterNames!
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        print("\(shouldDeletedName) 제거")
+                    }else if vc.dataManager.getNames(iWannaGet: .myHome)!.contains(shouldDeletedName){
+                        popOneButtonAlertUp(title: "", message: "집은 리스트에서 제거할 수 없습니다", buttonLetter: "확인")
+                    }
+                    else{
+                        popOneButtonAlertUp(title: "", message: "즐겨찾기중인 지역은 삭제할 수 없습니다", buttonLetter: "확인")
+                        return
+                    }
                 }
-                else{
-                    popOneButtonAlertUp(title: "", message: "즐겨찾기중인 지역은 삭제할 수 없습니다", buttonLetter: "확인")
-                    return
+                // myHome이 없을경우
+                else {
+                    print("myHome 없는 분기")
+                    // 제거하려는 항목이 내 리스트에 들어가있지 않다면
+                    if !vc.dataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
+                        
+                        //                    vc.dataManager.removeWeatherDataArray(name: sellectedItem.name)
+                        
+                        // ⭐️⭐️⭐️ indexPath.row를 이용해서 인덱스를 받아와서 그 인덱스 기준으로 특정 셀의 위치를 편집(삭제)하다보면 이후 즐겨찾기등록으로 인해 재편성된 리스트에서 에러가 생기기 떄문에 인덱스 값이 아닌 이름값을 대조하여 편집하도록 바꿈. (현재는 분석을 깊게하지 않았음, 정확한 진단이 아니기 때문에 맞는지 확인 해볼것.)
+                        //filterNames?.remove(at: indexPath.row) 사용안함
+                        filterNames = filterNames!.filter{$0 != sellectedItem.name}
+                        vc.myList = filterNames!
+                        print(#function, filterNames!)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                        
+                    } else {
+                        popOneButtonAlertUp(title: "", message: "즐겨찾기중인 지역은 삭제할 수 없습니다", buttonLetter: "확인")
+                        return
+                    }
                 }
             }
-            // myHome이 없을경우
-            else {
-                print("myHome 없는 분기")
-                // 제거하려는 항목이 내 리스트에 들어가있지 않다면
-                if !vc.weatherDataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
-                    vc.weatherDataManager.removeWeatherDataArray(name: sellectedItem.name)
-                    filteredData!.remove(at: indexPath.row)
-                    filteredName!.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    print("\(shouldDeletedName) 제거")
-                    print("제거후 데이터 갯수 \(filteredData?.count)")
-                    print("제거후 VC 데이터 갯수 \(vc.weatherDataManager.getAllWeatherList().count)")
-                } else {
-                    popOneButtonAlertUp(title: "", message: "즐겨찾기중인 지역은 삭제할 수 없습니다", buttonLetter: "확인")
-                    return
-                }
-            }
-
-            
+        } else {
+            popOneButtonAlertUp(title: "", message: "해당지역은 이미 목록에 없습니다", buttonLetter: "확인")
+        }
             // 리스트 추가기능 구현하기
-        } else if editingStyle == .insert {
-//            tableView.insertRows(at: indexPath, with: .top)
+         if editingStyle == .insert {
+            //            tableView.insertRows(at: indexPath, with: .top)
         }
     }
     
-       
+    
 }
 
 

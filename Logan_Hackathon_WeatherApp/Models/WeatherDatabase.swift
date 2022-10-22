@@ -44,7 +44,7 @@ final class WeatherDatabase {
     
     func getAWeatherData(name:String) -> [Weather] {
         
-        var data = getAllDataFromBase().filter{$0.name == name}
+        let data = getAllDataFromBase().filter{$0.name == name}
         return data
     }
     

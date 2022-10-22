@@ -16,14 +16,12 @@ class DetailCollectionViewController: UIViewController {
     
     
     
-    let weatherDataManager = DataManager()
+    let dataManager = DataManager()
     let flowLayout = UICollectionViewFlowLayout()
     
+    var myList:[String] = []
     var currentPageIndex:Int = 0
-    
-    
-    
-    
+
     // CLLocationManager 객체 생성
     let locationManager = CLLocationManager()
     
@@ -39,31 +37,19 @@ class DetailCollectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
-        // 네비게이션바 없앰
-        //        navigationController?.setNavigationBarHidden(true, animated: animated)
-        
         detailCollectionView.reloadData()
-        
-    }
-    
-    
-    //화면이 사라지고 다음으로 넘어갈때
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // 네비게이션바 다시 표시
-        //        navigationController?.setNavigationBarHidden(false, animated: animated)
         
     }
     
     func setUI(){
         
+        myList = dataManager.getAllMySortedWeatherListView().map{$0.name}
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
         
         setupCollectionView()
-        weatherDataManager.setMyWeatherViewList()
+        dataManager.setMyWeatherViewList()
         
     }
     
@@ -124,19 +110,17 @@ class DetailCollectionViewController: UIViewController {
     
     
     @IBAction func homeButtonTapped(_ sender: UIButton) {
-    print("DC-VC-------------------------")
         print(#function)
-        print("Myhome is: -------- \(DataManager.myHome)")
         
-        let currentPageItem = weatherDataManager.getMyWeatherViewList()[currentPageIndex]
+        let currentPageItem = dataManager.getMyWeatherViewList()[currentPageIndex]
         
         guard let myHomeName = DataManager.myHome?.name else {
             // myHome이 등록돼 있지 않은 상태라면.
             DataManager.myHome = currentPageItem
-            weatherDataManager.setMyWeatherViewList()
+            dataManager.setMyWeatherViewList()
             showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
             
-            weatherDataManager.setMyWeatherViewList()
+            dataManager.setMyWeatherViewList()
             detailCollectionView.reloadData()
             
             return
@@ -144,18 +128,17 @@ class DetailCollectionViewController: UIViewController {
         
         // myHome이 있는 상황.
         if myHomeName != currentPageItem.name {
-            //            sender.setImage(UIImage(systemName: "house.fill"), for: .normal)
-            DataManager.myHome = currentPageItem
-            weatherDataManager.setMyWeatherViewList()
+            dataManager.setMyHome(myHome: currentPageItem)
+            dataManager.setMyWeatherViewList()
             showToast(message: "\(currentPageItem.name) : 집으로 등록되었습니다.", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
         } else {
-            DataManager.myHome = nil
+            dataManager.setMyHome(myHome: nil)
             showToast(message: "집 등록이 해제되었습니다.", font: UIFont.systemFont(ofSize: 17,weight: .heavy), width: 300, height: 35, boxColor: UIColor.blue)
         }
         
         
         
-        weatherDataManager.setMyWeatherViewList()
+        dataManager.setMyWeatherViewList()
         detailCollectionView.reloadData()
     }
     
@@ -205,12 +188,13 @@ class DetailCollectionViewController: UIViewController {
         //print(#function)
         if segue.identifier == "toListVC" {
             let listVC = segue.destination as! ListViewController
-            listVC.filteredData = weatherDataManager.getMySortedWeatherListView()
+            listVC.filterNames = myList
         }
-        if segue.identifier == "toConfigVC" {
-            let configVC = segue.destination as! ConfigVC
-            
-        }
+        
+//        if segue.identifier == "toConfigVC" {
+//            let configVC = segue.destination as! ConfigVC
+//
+//        }
     }
     
     
@@ -226,14 +210,14 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
     //컬렉션뷰 몇개 만들지?
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return weatherDataManager.getMyWeatherViewList().count
+        return dataManager.getMyWeatherViewList().count
     }
     
     // 각 콜렉션뷰 Cell에 대한 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailViewCell", for: indexPath) as! CollectionViewCell
-        let myList = weatherDataManager.getMyWeatherViewList()
+        let myList = dataManager.getMyWeatherViewList()
         
         cell.regionNameLabel.text = myList[indexPath.item].name
         cell.currentTemperatureLabel.text = myList[indexPath.item].currentTemperature
@@ -245,7 +229,7 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
         
         
         // 유저가 마이홈을 등록했는지 확인후 cell 형성
-        if let myHomeName = DataManager.myHome?.name {
+        if let myHomeName = dataManager.getMyHome()?.name {
             cell.homeButton.setImage(UIImage(systemName: "house"), for: .normal)
             
             if myList[indexPath.row].name == myHomeName {
@@ -270,9 +254,9 @@ extension DetailCollectionViewController : CLLocationManagerDelegate {
         case .restricted, .notDetermined:
             print("사용자: 위치 사용 여부 체크중")
         case .authorizedAlways, .authorizedWhenInUse: // 허용
-            weatherDataManager.toggleMyLocationPermission()
+            dataManager.toggleMyLocationPermission()
             print("사용자: 위치 허용")
-            weatherDataManager.toggleWeatherToViewList(name: weatherDataManager.getAllWeatherList().randomElement()!.name)
+            dataManager.toggleWeatherToViewList(name: dataManager.getAllMySortedWeatherListView().randomElement()!.name)
             self.locationManager.startUpdatingLocation()
             detailCollectionView.reloadData()
             

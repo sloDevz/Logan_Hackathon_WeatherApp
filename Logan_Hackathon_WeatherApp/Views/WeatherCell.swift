@@ -38,7 +38,8 @@ class WeatherCell: UITableViewCell {
     
     func setUI() {
         if myList.contains(myName){
-            print("Cell MyList ::",myList)
+            self.backgroundColor = UIColor.clear
+            weatherIcon.isHidden = false
             selectButton.isHidden = false
             homeButton.isHidden = false
             
@@ -60,8 +61,10 @@ class WeatherCell: UITableViewCell {
             }
             
         }else {
+            weatherIcon.isHidden = true
             selectButton.isHidden = true
             homeButton.isHidden = true
+            self.backgroundColor = UIColor.separator
         }
     }
 

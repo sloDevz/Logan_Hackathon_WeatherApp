@@ -8,10 +8,8 @@
 import UIKit
 
 final class DataManager {
-    // 베이스 데이터
-    let dataBase = WeatherDatabase()
     
-    // getName 함수를 위한 모드
+    // getName 함수를 위한 case
     enum whatShouldGet {
         case myViewList
         case allWeatherList
@@ -22,7 +20,7 @@ final class DataManager {
     
     // 처음엔 비어있음
     static var myWeatherViewList: [Weather] = []
-    // 초기값은 전주로 했었음.
+    
     static var myHome: Weather?
     
     // 불러온 모든 도시들의 날씨 데이터
@@ -66,10 +64,6 @@ final class DataManager {
         DataManager.usingLocation.toggle()
     }
     
-    // 데이터를 초기 베이스 데이터 상태로 리셋
-    func reSetAllWeatherDataArray() {
-        DataManager.allWeatherDataArray =  dataBase.getAllDataFromBase()
-    }
     
     // 이름기준 데이터 지우기
 //    func removeWeatherDataArray(name: String){
@@ -108,7 +102,6 @@ final class DataManager {
     
     //유저가 선택한 특정도시들의 날씨 추출
     func setMyWeatherViewList() {
-        print(#function + "-------------------- Start")
         
         // 초기화면에 출력될 지역들 선별
         DataManager.myWeatherViewList = DataManager.allWeatherDataArray.filter{ $0.isMyCity }
@@ -127,8 +120,6 @@ final class DataManager {
         let temp = myArr.map{$0.name}
         print("myWeatherViewList: \(temp)")
         DataManager.myWeatherViewList = myArr
-        
-        print(#function + "-------------------- DONE")
     }
     
     func getAllMySortedWeatherListView() -> [Weather]{

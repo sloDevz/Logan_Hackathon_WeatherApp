@@ -19,7 +19,11 @@ class DetailCollectionViewController: UIViewController {
     let dataManager = DataManager()
     let flowLayout = UICollectionViewFlowLayout()
     
-    var myList:[String] = []
+    var myList:[String] = [] {
+        didSet {
+            print("myList :::::",oldValue, " ===>", myList)
+        }
+    }
     var currentPageIndex:Int = 0
 
     // CLLocationManager 객체 생성

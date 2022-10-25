@@ -492,7 +492,7 @@
                                                         <constraint firstAttribute="width" constant="25" id="XVe-l3-MwN"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="checkmark.circle" catalog="system" title=""/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="heart.fill" catalog="system" title=""/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1kV-cD-Mtg">
                                                     <rect key="frame" x="347" y="21.666666666666671" width="25" height="25"/>
@@ -524,8 +524,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="homeButton" destination="1kV-cD-Mtg" id="VTO-yp-9PZ"/>
+                                            <outlet property="likeButton" destination="e7x-qZ-JQN" id="xSR-tk-Uee"/>
                                             <outlet property="regionNameLabel" destination="K5U-sy-Dzd" id="fmN-tr-nuw"/>
-                                            <outlet property="selectButton" destination="e7x-qZ-JQN" id="e16-bq-aqW"/>
                                             <outlet property="weatherIcon" destination="nJT-RF-FZZ" id="QAi-Qj-7Qw"/>
                                         </connections>
                                     </tableViewCell>
@@ -573,6 +573,7 @@
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="drop.fill" catalog="system" width="96" height="128"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
+        <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="location.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>

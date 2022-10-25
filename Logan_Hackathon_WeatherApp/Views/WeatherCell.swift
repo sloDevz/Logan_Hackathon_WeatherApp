@@ -18,7 +18,7 @@ class WeatherCell: UITableViewCell {
     
     @IBOutlet weak var weatherIcon: UIImageView!
     
-    @IBOutlet weak var selectButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
     
     @IBOutlet weak var homeButton: UIButton!
     
@@ -40,13 +40,13 @@ class WeatherCell: UITableViewCell {
         if myList.contains(myName){
             self.backgroundColor = UIColor.clear
             weatherIcon.isHidden = false
-            selectButton.isHidden = false
+            likeButton.isHidden = false
             homeButton.isHidden = false
             
             if isMyCity! {
-                selectButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
+                likeButton.isHidden = false
             }else {
-                selectButton.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+                likeButton.isHidden = true
             }
             
             
@@ -62,7 +62,7 @@ class WeatherCell: UITableViewCell {
             
         }else {
             weatherIcon.isHidden = true
-            selectButton.isHidden = true
+            likeButton.isHidden = true
             homeButton.isHidden = true
             self.backgroundColor = UIColor.separator
         }

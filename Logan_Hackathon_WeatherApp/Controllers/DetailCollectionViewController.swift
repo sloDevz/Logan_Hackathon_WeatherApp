@@ -24,6 +24,7 @@ class DetailCollectionViewController: UIViewController {
             print("myList :::::",oldValue, " ===>", myList)
         }
     }
+    
     var currentPageIndex:Int = 0
 
     // CLLocationManager 객체 생성

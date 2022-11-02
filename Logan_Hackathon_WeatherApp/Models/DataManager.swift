@@ -90,12 +90,10 @@ final class DataManager {
         getAllWeatherList().forEach{
             if $0.name == name {
                 DataManager.allWeatherDataArray[index].isMyCity.toggle()
-                
+                print("추가됨 -----------> \(DataManager.allWeatherDataArray[index].name)")
             }else { index += 1 }
         }
-        
-        
-        print("추가됨 -----------> \(DataManager.allWeatherDataArray[index].name)")
+
         setMyWeatherViewList()
         print(#function+"-------------------- Add DONE")
     }

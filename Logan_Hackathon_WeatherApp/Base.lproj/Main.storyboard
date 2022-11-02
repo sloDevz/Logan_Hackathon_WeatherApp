@@ -479,54 +479,50 @@
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="68"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5U-sy-Dzd">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5U-sy-Dzd" userLabel="latterLabel">
                                                     <rect key="frame" x="171" y="23.666666666666671" width="48" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e7x-qZ-JQN">
-                                                    <rect key="frame" x="320" y="21.666666666666671" width="25" height="25"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun.min" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nJT-RF-FZZ" userLabel="dataIcon">
+                                                    <rect key="frame" x="20" y="17.666666666666664" width="35" height="33.333333333333336"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="3Ep-br-kVu"/>
-                                                        <constraint firstAttribute="width" constant="25" id="XVe-l3-MwN"/>
+                                                        <constraint firstAttribute="width" constant="35" id="ccc-ek-RgB"/>
+                                                        <constraint firstAttribute="height" constant="35" id="uB6-mP-Grm"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="heart.fill" catalog="system" title=""/>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1kV-cD-Mtg">
-                                                    <rect key="frame" x="347" y="21.666666666666671" width="25" height="25"/>
+                                                </imageView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ZwP-TD-L0k">
+                                                    <rect key="frame" x="345" y="18.666666666666664" width="35" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="25" id="jhH-W8-wqG"/>
-                                                        <constraint firstAttribute="height" constant="25" id="nNu-vh-mNP"/>
+                                                        <constraint firstAttribute="height" constant="35" id="D4G-4T-kz6"/>
+                                                        <constraint firstAttribute="width" constant="35" id="mel-n0-AhR"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="house" catalog="system" title=""/>
-                                                </button>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun.min" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nJT-RF-FZZ">
-                                                    <rect key="frame" x="20" y="9.9999999999999964" width="50" height="48.333333333333329"/>
+                                                </imageView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="house.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bXl-ra-Zly">
+                                                    <rect key="frame" x="305" y="16.333333333333332" width="35" height="34.333333333333336"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="ccc-ek-RgB"/>
-                                                        <constraint firstAttribute="height" constant="50" id="uB6-mP-Grm"/>
+                                                        <constraint firstAttribute="height" constant="35" id="1Md-AN-mNe"/>
+                                                        <constraint firstAttribute="width" constant="35" id="Oju-c6-PjE"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="nJT-RF-FZZ" firstAttribute="centerY" secondItem="BqM-eI-n6L" secondAttribute="centerY" id="64e-jQ-tav"/>
+                                                <constraint firstItem="ZwP-TD-L0k" firstAttribute="leading" secondItem="bXl-ra-Zly" secondAttribute="trailing" constant="5" id="DqA-RR-eE3"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZwP-TD-L0k" secondAttribute="trailing" constant="10" id="ERc-o1-BkC"/>
                                                 <constraint firstItem="K5U-sy-Dzd" firstAttribute="centerY" secondItem="BqM-eI-n6L" secondAttribute="centerY" id="PDM-FZ-UMC"/>
-                                                <constraint firstItem="e7x-qZ-JQN" firstAttribute="centerY" secondItem="BqM-eI-n6L" secondAttribute="centerY" id="QrL-uG-vR6"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="e7x-qZ-JQN" secondAttribute="trailing" constant="25" id="Za3-ew-p01"/>
+                                                <constraint firstItem="ZwP-TD-L0k" firstAttribute="centerY" secondItem="BqM-eI-n6L" secondAttribute="centerY" id="faD-23-DaH"/>
+                                                <constraint firstItem="bXl-ra-Zly" firstAttribute="centerY" secondItem="K5U-sy-Dzd" secondAttribute="centerY" id="gnx-6q-Omi"/>
                                                 <constraint firstItem="K5U-sy-Dzd" firstAttribute="centerX" secondItem="BqM-eI-n6L" secondAttribute="centerX" id="mYe-9Y-BPx"/>
-                                                <constraint firstItem="1kV-cD-Mtg" firstAttribute="leading" secondItem="e7x-qZ-JQN" secondAttribute="trailing" constant="2" id="mxW-73-v18"/>
                                                 <constraint firstItem="nJT-RF-FZZ" firstAttribute="leading" secondItem="BqM-eI-n6L" secondAttribute="leading" constant="20" id="tFd-I9-fQo"/>
-                                                <constraint firstItem="1kV-cD-Mtg" firstAttribute="centerY" secondItem="BqM-eI-n6L" secondAttribute="centerY" id="wbv-QP-e56"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="homeButton" destination="1kV-cD-Mtg" id="VTO-yp-9PZ"/>
-                                            <outlet property="likeButton" destination="e7x-qZ-JQN" id="xSR-tk-Uee"/>
-                                            <outlet property="regionNameLabel" destination="K5U-sy-Dzd" id="fmN-tr-nuw"/>
-                                            <outlet property="weatherIcon" destination="nJT-RF-FZZ" id="QAi-Qj-7Qw"/>
+                                            <outlet property="dataIcon" destination="nJT-RF-FZZ" id="0fA-Ev-7oA"/>
+                                            <outlet property="dataLabel" destination="K5U-sy-Dzd" id="bBf-Vm-cL6"/>
+                                            <outlet property="heartIcon" destination="ZwP-TD-L0k" id="Y06-uQ-ETm"/>
+                                            <outlet property="homeIcon" destination="bXl-ra-Zly" id="7OE-VZ-wJe"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -575,6 +571,7 @@
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="house" catalog="system" width="128" height="104"/>
+        <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="location.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="123"/>
         <image name="sun.min" catalog="system" width="128" height="123"/>

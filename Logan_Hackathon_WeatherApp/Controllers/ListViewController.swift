@@ -8,29 +8,36 @@
 import UIKit
 import CoreLocation
 
+/// 구조체면 동작 안함 이유를 알아보자
+class Section {
+    var data: Weather
+    let contents: Int = 5
+    //    lazy var title: String = data.name
+    lazy var icon = data.icon
+    lazy var isMyCity = data.isMyCity
+    
+    lazy var isOpen = data.isOpen {
+        didSet {
+            print(oldValue,"======>",isOpen)
+        }
+    }
+    
+    init(data: Weather) {
+        self.data = data
+        //        self.isOpen = isOpen
+        print("생성 - ", data.name)
+    }
+}
 
 class ListViewController: UIViewController {
     
-    //섹션기능 (보류)
-    
-    struct Section {
-        lazy var title: String = data.name
-        let data: Weather
-        var isOpen = false
-        
-        init(data: Weather, isOpen: Bool = false) {
-            self.data = data
-            self.isOpen = isOpen
-        }
-    }
-        
     
     @IBOutlet weak var listTableView: UITableView!
     
     let searchController = UISearchController()
     
     // 직접적으로 유저에게 보여질 데이터, 상호작용할 데이터 묶음
-    var shownData: [Weather]?
+    //    var shownData: [Weather]?
     
     // filteredData에 들어갈 WeatherData를 선별할 filter
     var filterNames: [String] = [] {
@@ -39,8 +46,8 @@ class ListViewController: UIViewController {
         }
     }
     
-    //섹션만들기 (보류)
-    //    private var sections = [Section]()
+    //섹션만들기
+    private var sections: [Section] = []
     
     
     override func viewDidLoad() {
@@ -50,6 +57,7 @@ class ListViewController: UIViewController {
     }
     
     func setUp() {
+        
         navigationItem.searchController = searchController
         navigationItem.searchController?.searchBar.placeholder = "지역찾기"
         searchController.searchBar.delegate = self
@@ -57,8 +65,9 @@ class ListViewController: UIViewController {
         
         
         listTableView.dataSource = self
-        listTableView.rowHeight = 80
         listTableView.delegate = self
+        
+        sections = setSections()
     }
     
     func showToast(message : String, font: UIFont, width: CGFloat, height: CGFloat, boxColor: UIColor) {
@@ -89,19 +98,24 @@ class ListViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-//    섹션만들기 기능
+    //    섹션만들기 기능
     func setSections() -> [Section] {
+        print(#function)
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
         let filteredDatas = vc.dataManager.getFilteredData(filter: filterNames)
         
-        var weatherSections = filteredDatas.map{
+        let weatherSections = filteredDatas.map{
             Section(data: $0)
         }
-            return weatherSections
-        }
+        return weatherSections
+    }
     
+    func toggleOpen() {
+        let index = navigationController!.viewControllers.count - 2
+        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
+    }
 }
 
 //MARK: - Extensions below
@@ -128,6 +142,7 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
         else {
             filterNames = vc.dataManager.getAllMySortedWeatherListView().map{$0.name}.filter { $0.hasPrefix(searchText) }
         }
+        self.sections = self.setSections()
         self.listTableView.reloadData()
     }
     
@@ -137,6 +152,7 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
         
         vc.dataManager.setMyWeatherViewList()
         filterNames = vc.myList
+        sections = setSections()
         listTableView.reloadData()
     }
     
@@ -144,43 +160,65 @@ extension ListViewController: UISearchResultsUpdating, UISearchBarDelegate {
 
 extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        //        return sections.count
+        
+        return filterNames.count
+        
+    }
+    
+    
     //컨텐츠 몇개?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let index = navigationController!.viewControllers.count - 2  // 바로 전 화면 인덱스
-        let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
-        shownData = vc.dataManager.getFilteredData(filter: filterNames)
-        print(#function + "\(filterNames)")
+                
+        let section = sections[section]
         
-        return shownData!.count
+        if section.data.isOpen {
+            return section.contents
+        } else {
+            return 1
+        }
         
+        
+        
+        
+    }
+    
+    //셀 높이
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 70
+        }else {
+            return 40
+        }
     }
     
     // 셀 표현
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(#function)
+        
+        if filterNames.isEmpty {
+            sections = setSections()
+        }
+        
         let index = navigationController!.viewControllers.count - 2  // 바로 전 화면 인덱스
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
-        // filteredName이 Nil이 아닐때 그안의 이름들에 해당하는 데이터를 shownData에 넣어주기
-        if !filterNames.isEmpty {
-            shownData = vc.dataManager.getFilteredData(filter: filterNames)
-        }
-        // dequeueReusableCell의 리턴값이 UITableViewCell 이기 때문에 WeatherCell 타입으로 다시 캐스팅 해줘야함.
+        
+        ///<섹션만들기>
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
+
+        let section = sections[indexPath.section]
         
-        
-        print("myList ::",vc.myList)
-        
-        let weather = shownData![indexPath.row] //이걸로 코드 줄여도 됨
+        cell.dataIndex = indexPath.row
+        cell.data = section.data
+        cell.selectionStyle = .none
         
         cell.myHome = vc.dataManager.getMyHome()
-        cell.myName = weather.name
-        cell.isMyCity = weather.isMyCity
+        cell.myName = section.data.name
+        cell.isMyCity = section.isMyCity
         cell.myList = vc.myList
-        cell.regionNameLabel.text = weather.name
-        cell.weatherIcon.image = weather.icon
-        cell.selectionStyle = .none
         
         return cell
     }
@@ -188,16 +226,19 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     
     // 셀이 선택됐을때에 대한 반응
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController?.viewControllers[index] as! DetailCollectionViewController
         
-        let selectedItem = shownData![indexPath.row]
-        print("\(selectedItem.name) 선택됨")
+        let selectedItem = sections[indexPath.section]
         
         
-        
-        
-        
+        if indexPath.row == 0 && vc.myList.contains(selectedItem.data.name) {
+            sections[indexPath.section].data.isOpen.toggle()
+            listTableView.reloadSections([indexPath.section], with: .none)
+        }
         
     }
     
@@ -208,20 +249,25 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController!.viewControllers[index] as! DetailCollectionViewController
         
-        let selectedItem = shownData![indexPath.row]
+        let selectedItem = sections[indexPath.section]
         
-        if vc.myList.contains(selectedItem.name){
+        if indexPath.row > 0 {
+            return nil
+        }
+        
+        
+        if vc.myList.contains(selectedItem.data.name){
             let Delete = UIContextualAction(style: .normal, title: "Delete") { [self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
                 
-                let shouldDeletedName = self.shownData![indexPath.row].name
+                let shouldDeletedName = self.sections[indexPath.section].data.name
                 
                 // myHome이 있을경우
                 if let myHomeName = vc.dataManager.getNames(iWannaGet: .myHome){
                     print("myHome 있는 분기")
                     if !myHomeName.contains(shouldDeletedName) && !vc.dataManager.getNames(iWannaGet: .myViewList)!.contains(shouldDeletedName){
                         
-                        vc.myList = vc.myList.filter{$0 != selectedItem.name}
-                        self.filterNames = filterNames.filter{$0 != selectedItem.name}
+                        vc.myList = vc.myList.filter{$0 != selectedItem.data.name}
+                        self.filterNames = filterNames.filter{$0 != selectedItem.data.name}
                         tableView.deleteRows(at: [indexPath], with: .left)
                         print("\(shouldDeletedName) 제거")
                         
@@ -240,14 +286,17 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
                         
                         //                    vc.dataManager.removeWeatherDataArray(name: sellectedItem.name)
                         
-                        // ⭐️⭐️⭐️ indexPath.row를 이용해서 인덱스를 받아와서 그 인덱스 기준으로 특정 셀의 위치를 편집(삭제)하다보면 이후 즐겨찾기등록으로 인해 재편성된 리스트에서 에러가 생기기 떄문에 인덱스 값이 아닌 이름값을 대조하여 편집하도록 바꿈. (현재는 분석을 깊게하지 않았음, 정확한 진단이 아니기 때문에 맞는지 확인 해볼것.)
+                        // ⭐️⭐️⭐️ indexPath.row를 이용해서 인덱스를 받아와서 그 인덱스 기준으로 특정 셀의 위치를 편집(삭제)하다보면 이후 즐겨찾기등록으로 인해 재편성된 리스트에서 에러가 생기기 때문에 인덱스 값이 아닌 이름값을 대조하여 편집하도록 바꿈. (현재는 분석을 깊게하지 않았음, 정확한 진단이 아니기 때문에 맞는지 확인 해볼것.)
                         //filterNames?.remove(at: indexPath.row) 사용안함
                         //⚠️ 꼭 myList와 filterNames가 따로 움직일 필요가 있을까? 생각해보기
-                        vc.myList = vc.myList.filter{$0 != selectedItem.name}
-                        filterNames = filterNames.filter{$0 != selectedItem.name}
-                        tableView.deleteRows(at: [indexPath], with: .left)
+                        vc.myList = vc.myList.filter{$0 != selectedItem.data.name}
+                        filterNames = filterNames.filter{$0 != selectedItem.data.name}
+                        self.sections = self.setSections()
+                        tableView.reloadData()
+//                        tableView.deleteRows(at: [indexPath], with: .left)
                         
-                        showToast(message: "\(selectedItem.name) 제거", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: .systemRed)
+                        
+                        showToast(message: "\(selectedItem.data.name) 제거", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: .systemRed)
                     }
                     else {
                         popOneButtonAlertUp(title: "", message: "즐겨찾기중인 지역은 삭제할 수 없습니다", buttonLetter: "확인")
@@ -270,25 +319,31 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
     // 좌로 스와이프 액션
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
+        if indexPath.row > 0 {
+            return nil
+        }
+        
         let index = navigationController!.viewControllers.count - 2
         let vc = navigationController!.viewControllers[index] as! DetailCollectionViewController
-        shownData = vc.dataManager.getFilteredData(filter: filterNames)
+        sections = setSections()
         
         print("^^^^^^^^^^^^^^^^^^^^",filterNames)
-        let selectedItem = shownData![indexPath.row]
-        print("%%%%%%%%%%%%%%%%%%%", selectedItem.name)
+        let selectedItem = sections[indexPath.section]
+        print("%%%%%%%%%%%%%%%%%%%", selectedItem.data.name)
         
         
-        // 즐겨찾기에 없는 아이템일때 (삭제상태)
-        if !vc.myList.contains(selectedItem.name){
+        // 즐겨찾기에 없는 아이템일때 (삭제상태)  : ADD
+        if !vc.myList.contains(selectedItem.data.name){
             let add = UIContextualAction(style: .normal, title: "Add") { [self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
                 print("Add 클릭 됨")
                 
                 
-                vc.myList.append(selectedItem.name)
-                listTableView.reloadData()
+                vc.myList.append(selectedItem.data.name)
                 
-                showToast(message: "\(selectedItem.name) 즐겨찾기 등록", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: .systemTeal)
+                showToast(message: "\(selectedItem.data.name) 즐겨찾기 등록", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: .systemTeal)
+                
+//                self.listTableView.reloadSections([indexPath.section], with: .automatic)
+                self.listTableView.reloadData()
                 success(true)
                 
             }
@@ -298,47 +353,89 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
             
             //actions배열 인덱스 0이 왼쪽에 붙어서 나옴
             return UISwipeActionsConfiguration(actions:[add])
+        }
+        
+        // 내 도시에 없는 아이템일때 : Like
+        else if !selectedItem.isMyCity{
             
-            
-            // 내 도시에 없는 아이템일때
-        }else if !selectedItem.isMyCity{
             let like = UIContextualAction(style: .normal, title: "Like") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
                 print("Like 클릭 됨")
                 
-                vc.dataManager.toggleWeatherToViewList(name: selectedItem.name)
+                vc.dataManager.toggleWeatherToViewList(name: selectedItem.data.name)
+                self.sections = self.setSections()
+                print(self.sections,"뭐가 들었누")
                 
-                self.showToast(message: "\(selectedItem.name) 선택완료", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
+                
+                self.showToast(message: "\(selectedItem.data.name) 선택완료", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor(red: 0.0588, green: 0.6, blue: 0, alpha: 1.0))
+                
+                
                 self.listTableView.reloadData()
+                print("섹션 리로드 함.")
                 success(true)
+                
             }
+            
+            print("Like 준비?? ")
             like.backgroundColor = .magenta
             return UISwipeActionsConfiguration(actions:[like])
-            
-            // 이미 내도시에 있는 아이템일때.
-        }else if selectedItem.isMyCity{
+        }
+        
+        
+        // 이미 내도시에 있는 아이템일때. : Unlike
+        else if selectedItem.isMyCity{
             
             let unlike = UIContextualAction(style: .normal, title: "Unlike") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-                print("Unlike 클릭 됨")
+                
+                print(selectedItem.data.name,"Unlike 클릭 됨")
                 
                 if let myHomeName = vc.dataManager.getMyHome()?.name  {
-                    if selectedItem.name == myHomeName {
+                    print("집으로 설정된 지역이 있음.")
+                    if selectedItem.data.name == myHomeName {
                         self.popOneButtonAlertUp(title: "집으로 설정된 지역입니다", message: "집은 즐겨찾기에서 제거할 수 없어요, 홈 화면에서 집을 변경해주세요", buttonLetter: "알겠습니다")
                         success(false)
                     }
-                }else if selectedItem.isMyCity == true && vc.dataManager.getMyWeatherViewList().count == 1 {
+                    else if selectedItem.isMyCity == true && vc.dataManager.getMyWeatherViewList().count == 1 {
+                        self.popOneButtonAlertUp(title: "하나 이상의 지역을 선택해주세요.", message: "", buttonLetter: "알겠습니다")
+                        success(false)
+                    }
+                    
+                    else {
+                        print("Unlike 진행")
+                        vc.dataManager.toggleWeatherToViewList(name: selectedItem.data.name)
+                        
+                        
+                        self.showToast(message: "\(selectedItem.data.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
+                        
+                        self.sections = self.setSections()
+                        self.listTableView.reloadData()
+                        success(true)
+                    }
+                    
+                }
+                
+                else if selectedItem.isMyCity == true && vc.dataManager.getMyWeatherViewList().count == 1 {
                     self.popOneButtonAlertUp(title: "하나 이상의 지역을 선택해주세요.", message: "", buttonLetter: "알겠습니다")
                     success(false)
-                }else {
-                    vc.dataManager.toggleWeatherToViewList(name: selectedItem.name)
+                }
+                
+                else {
+                    print("Unlike 진행")
+                    vc.dataManager.toggleWeatherToViewList(name: selectedItem.data.name)
                     
-                    self.showToast(message: "\(selectedItem.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
+                    
+                    self.showToast(message: "\(selectedItem.data.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
+                    
+                    self.sections = self.setSections()
                     self.listTableView.reloadData()
                     success(true)
                 }
             }
             unlike.backgroundColor = .orange
             return UISwipeActionsConfiguration(actions:[unlike])
-        } else {
+        }
+        
+        else {
+            print("Unlike 아님")
             return nil
         }
         

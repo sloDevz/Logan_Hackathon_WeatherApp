@@ -18,6 +18,12 @@ struct Weather {
         }
     }
     
+    var isOpen: Bool = false {
+        didSet {
+            print("isOpen :: \(oldValue) --> ", isOpen)
+        }
+    }
+    
     
     enum WeatherDescription:String {
         case clear = "맑음"

@@ -33,12 +33,14 @@ class DetailCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setUI()
         
         
     }
     
-    // 화면이 출력될 때
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -46,12 +48,33 @@ class DetailCollectionViewController: UIViewController {
         
     }
     
+    
+    
     func setUI(){
+        
+        
         
         myList = dataManager.getAllMySortedWeatherListView().map{$0.name}
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 정확한 위치받기
         locationManager.delegate = self
-        self.locationManager.requestWhenInUseAuthorization()
+        
+        
+        // 앱 실행시 사용자 위치사용 권한에 따른 최초화면 분기설정
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
+            dataManager.toggleMyLocationPermission()
+            print("사용자: 최초 ------ 위치 항상!! 허용")
+            dataManager.toggleWeatherToViewList(name: dataManager.getAllMySortedWeatherListView().randomElement()!.name)
+            setupCollectionView()
+            dataManager.setMyWeatherViewList()
+        }else if locationManager.authorizationStatus == .denied  {
+            print("사용자: 최초 ------ 위치 거부 ---> ListVC 로 자동 전환")
+            dataManager.toggleWeatherToViewList(name: dataManager.getNames(iWannaGet: .allWeatherList)!.randomElement()!)
+            popOneButtonAlertUp(title: "알 림", message: "선택한 도시가 없어 기본 도시중 하나를 무작위로 선택했습니다.", buttonLetter: "알겠습니다")
+            performSegue(withIdentifier: "toListVC", sender: self)
+        }else {
+            print("사용자: 최초 ------ 위치 사용중 계속 허용")
+            self.locationManager.requestWhenInUseAuthorization()
+        }
         
         setupCollectionView()
         dataManager.setMyWeatherViewList()
@@ -77,6 +100,14 @@ class DetailCollectionViewController: UIViewController {
         detailCollectionView.collectionViewLayout = flowLayout
         
         
+    }
+    
+    func popOneButtonAlertUp(title: String, message: String, buttonLetter: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        let yes = UIAlertAction(title: buttonLetter, style: UIAlertAction.Style.default)
+        
+        alert.addAction(yes)
+        self.present(alert, animated: true)
     }
     
     @IBAction func locationButtonTapped(_ sender: UIButton) {
@@ -267,6 +298,7 @@ extension DetailCollectionViewController : CLLocationManagerDelegate {
             
         case .denied: //허용거부
             self.performSegue(withIdentifier: "toListVC", sender: self)
+            dataManager.toggleWeatherToViewList(name: dataManager.getAllMySortedWeatherListView().randomElement()!.name)
             print("사용자: 위치사용 거부")
             
         default:

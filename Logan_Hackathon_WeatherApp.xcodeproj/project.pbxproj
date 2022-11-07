@@ -18,6 +18,7 @@
 		F11BD78028ED791F00B9E3A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F11BD77E28ED791F00B9E3A8 /* LaunchScreen.storyboard */; };
 		F13C3E8E28F07E4A00D66DD6 /* DetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C3E8D28F07E4A00D66DD6 /* DetailCollectionViewController.swift */; };
 		F13C3E9028F1635300D66DD6 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13C3E8F28F1635300D66DD6 /* CollectionViewCell.swift */; };
+		F1438BD529192DBD00A08769 /* KoreaLocationData.csv in Resources */ = {isa = PBXBuildFile; fileRef = F1438BD429192DBD00A08769 /* KoreaLocationData.csv */; };
 		F16DCEA528F41A46007B3256 /* ConfigVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DCEA428F41A46007B3256 /* ConfigVC.swift */; };
 		F16DCEA728F41AD4007B3256 /* ConfigCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DCEA628F41AD4007B3256 /* ConfigCell.swift */; };
 		F16DCEA928F4ADDA007B3256 /* WeatherDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16DCEA828F4ADDA007B3256 /* WeatherDatabase.swift */; };
@@ -37,6 +38,7 @@
 		F11BD78128ED791F00B9E3A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F13C3E8D28F07E4A00D66DD6 /* DetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewController.swift; sourceTree = "<group>"; };
 		F13C3E8F28F1635300D66DD6 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		F1438BD429192DBD00A08769 /* KoreaLocationData.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KoreaLocationData.csv; sourceTree = "<group>"; };
 		F16DCEA428F41A46007B3256 /* ConfigVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigVC.swift; sourceTree = "<group>"; };
 		F16DCEA628F41AD4007B3256 /* ConfigCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigCell.swift; sourceTree = "<group>"; };
 		F16DCEA828F4ADDA007B3256 /* WeatherDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDatabase.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				F11BD78928EDB4B500B9E3A8 /* Models */,
 				F11BD78828EDB4A100B9E3A8 /* Views */,
 				F11BD78728EDB48200B9E3A8 /* Controllers */,
+				F1438BD329192D6F00A08769 /* CSV */,
 				F11BD77928ED791E00B9E3A8 /* Main.storyboard */,
 				F11BD77C28ED791F00B9E3A8 /* Assets.xcassets */,
 				F11BD77E28ED791F00B9E3A8 /* LaunchScreen.storyboard */,
@@ -113,6 +116,14 @@
 				F100D21C28EDEF4400F1664F /* DataManager.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F1438BD329192D6F00A08769 /* CSV */ = {
+			isa = PBXGroup;
+			children = (
+				F1438BD429192DBD00A08769 /* KoreaLocationData.csv */,
+			);
+			path = CSV;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,6 +184,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1438BD529192DBD00A08769 /* KoreaLocationData.csv in Resources */,
 				F11BD78028ED791F00B9E3A8 /* LaunchScreen.storyboard in Resources */,
 				F11BD77D28ED791F00B9E3A8 /* Assets.xcassets in Resources */,
 				F11BD77B28ED791E00B9E3A8 /* Main.storyboard in Resources */,

@@ -268,7 +268,8 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
                         
                         vc.myList = vc.myList.filter{$0 != selectedItem.data.name}
                         self.filterNames = filterNames.filter{$0 != selectedItem.data.name}
-                        tableView.deleteRows(at: [indexPath], with: .left)
+                        self.sections = self.setSections()
+                        tableView.reloadData()
                         print("\(shouldDeletedName) 제거")
                         
                     }else if vc.dataManager.getNames(iWannaGet: .myHome)!.contains(shouldDeletedName){
@@ -380,8 +381,7 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
             return UISwipeActionsConfiguration(actions:[like])
         }
         
-        
-        // 이미 내도시에 있는 아이템일때. : Unlike
+        // 이미 내도시에 있는 아이템일때. : Unlike-
         else if selectedItem.isMyCity{
             
             let unlike = UIContextualAction(style: .normal, title: "Unlike") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
@@ -394,26 +394,10 @@ extension ListViewController : UITableViewDataSource, UITableViewDelegate {
                         self.popOneButtonAlertUp(title: "집으로 설정된 지역입니다", message: "집은 즐겨찾기에서 제거할 수 없어요, 홈 화면에서 집을 변경해주세요", buttonLetter: "알겠습니다")
                         success(false)
                     }
-                    else if selectedItem.isMyCity == true && vc.dataManager.getMyWeatherViewList().count == 1 {
-                        self.popOneButtonAlertUp(title: "하나 이상의 지역을 선택해주세요.", message: "", buttonLetter: "알겠습니다")
-                        success(false)
-                    }
-                    
-                    else {
-                        print("Unlike 진행")
-                        vc.dataManager.toggleWeatherToViewList(name: selectedItem.data.name)
-                        
-                        
-                        self.showToast(message: "\(selectedItem.data.name) 선택 해제", font: UIFont.systemFont(ofSize: 17, weight: .heavy), width: 300, height: 35, boxColor: UIColor.orange)
-                        
-                        self.sections = self.setSections()
-                        self.listTableView.reloadData()
-                        success(true)
-                    }
-                    
+
                 }
                 
-                else if selectedItem.isMyCity == true && vc.dataManager.getMyWeatherViewList().count == 1 {
+                if selectedItem.isMyCity == true && vc.dataManager.getMyWeatherViewList().count == 1 {
                     self.popOneButtonAlertUp(title: "하나 이상의 지역을 선택해주세요.", message: "", buttonLetter: "알겠습니다")
                     success(false)
                 }
